@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta & SEO -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KT Stone Exports – Explore our range of premium stone products.">
+  <meta name="keywords" content="granite, marble, slate, sandstone, limestone, stone exports, products">
+  <title>Products – KT Stone Exports</title>
+
+  <!-- Elegant Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" href="images/kt_logo_header.jpg" type="image/png">
+  <!-- Styles & Scripts -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+
+  <!-- Inline styles for interactive fade-in -->
+  <style>
+    body { font-family: 'Playfair Display', serif; color: #444; }
+    .section-title { font-size: 2.5rem; margin: 2rem 0 1rem; text-align: center; color: #b76e79; }
+    .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 1s ease-out forwards; }
+    @keyframes fadeInUp { to { opacity:1; transform: translateY(0); } }
+    .card h3 { margin-top: 1rem; color: #6b4f4f; }
+    .card ul { list-style: disc inside; padding-left: 1rem; color: #555; }
+  </style>
+</head>
+<body>
+  <!-- Hero Slideshow Header -->
+  <div class="hero-container">
+    <div class="hero-slide active"><img src="images/Quarry1.jpeg" alt="Quarry Mines"></div>
+    <div class="hero-slide"><img src="images/quarry2.jpeg" alt="Quarry Site"></div>
+    <div class="hero-slide"><img src="images/quarry3.jpeg" alt="Quarry Mines"></div>
+    <div class="hero-slide"><img src="images/rocks2.jpg" alt="Stone Blocks"></div>
+    <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <!-- Navigation & Logo -->
+  <header class="container">
+    <img src="images/kt_logo_header.jpg" alt="KT Logo" class="site-logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html">Contact</a>
+      <a href="ar/products.html">العربية</a>
+    </nav>
+  </header>
+
+  <main class="container section">
+    <h2 class="section-title fade-in-up" style="animation-delay:0.2s">Our Products</h2>
+    <div class="grid grid-3 fade-in-up" style="animation-delay:0.4s">
+      <!-- Indian Granites -->
+      <div class="card">
+        <img src="images/products/granite.jpg" alt="Indian Granites">
+        <h3>Indian Granites</h3>
+        <ul>
+          <li>Absolute Black</li>
+          <li>Black Galaxy</li>
+          <li>Imperial Red</li>
+          <li>Green Marble</li>
+          <li>River White</li>
+          <li>Viscont White</li>
+          <li>Imperial Gold</li>
+          <li>Paradiso</li>
+          <li>Jhansi Red</li>
+          <li>Red Ruby</li>
+        </ul>
+      </div>
+      <!-- Indian Slates -->
+      <div class="card">
+        <img src="images/products/Slate.jpg" alt="Indian Slates">
+        <h3>Indian Slates</h3>
+        <ul>
+          <li>Silver Shine</li>
+          <li>Silver Grey</li>
+          <li>Kund Multi Colour</li>
+          <li>Jak Multi Colour</li>
+          <li>Jak Black</li>
+          <li>Silver Galaxy</li>
+          <li>Peacock MultiColour</li>
+          <li>Khaag</li>
+          <li>Himachal White</li>
+        </ul>
+      </div>
+      <!-- Sand Stones -->
+      <div class="card">
+        <img src="images/products/rainbow.jpg" alt="Sand Stones">
+        <h3>Sand Stones</h3>
+        <ul>
+          <li>Beige</li>
+          <li>Kasiya Red</li>
+          <li>Kasiya Brown</li>
+          <li>Kasiya Grey</li>
+          <li>Agra Red</li>
+        </ul>
+      </div>
+      <!-- LimeStones -->
+      <div class="card">
+        <img src="images/products/wc1.jpg" alt="LimeStones">
+        <h3>LimeStones</h3>
+        <ul>
+          <li>Cuddapah Black</li>
+          <li>Graphite</li>
+          <li>Tandoor</li>
+          <li>Kota Grey</li>
+          <li>Kota Yellow</li>
+          <li>Kota Brown</li>
+        </ul>
+      </div>
+      <!-- European Marble -->
+      <div class="card">
+        <img src="images/products/viola.jpg" alt="European Marble">
+        <h3>European Marble</h3>
+        <ul>
+          <li>Botticino (Italian)</li>
+          <li>Crema Marfil (Spanish)</li>
+          <li>Camouflage (Albanian)</li>
+          <li>Dark Emperador (Spanish)</li>
+          <li>Carrara (Italian)</li>
+          <li>Moccha Crème (Portuguese)</li>
+          <li>Calacatta (Italian)</li>
+          <li>Staturio White (Italian)</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="container section">
+    <p>&copy; 2025 KT Stone Exports. All rights reserved.</p>
+  </footer>
+</body>
+</html>

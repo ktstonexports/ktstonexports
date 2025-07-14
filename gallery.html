@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery – KT Stone Exports</title>
+  <meta name="description" content="Explore our project gallery of wall cladding, landscaping, stone artifacts, water features and more.">
+  <meta name="keywords" content="stone gallery, wall cladding, landscaping, stone artifacts, water features">
+  <!-- Elegant Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/kt_logo_header.jpg" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+  <style>
+    /* Thumbnail grid styling */
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+    .gallery-item { position: relative; overflow: hidden; padding-top: 75%; border-radius: 4px; cursor: pointer; }
+    .gallery-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    /* Lightbox overlay */
+    #lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    #lightbox-overlay img { max-width: 90%; max-height: 90%; border-radius: 8px; }
+    #lightbox-overlay .close-btn { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <!-- Hero Slideshow Header -->
+  <div class="hero-container">
+    <div class="hero-slide active"><img src="images/Quarry1.jpeg" alt="Quarry"></div>
+    <div class="hero-slide"><img src="images/quarry2.jpeg" alt="Quarry"></div>
+    <div class="hero-slide"><img src="images/quarry3.jpeg" alt="Quarry"></div>
+    <div class="hero-slide"><img src="images/rocks2.jpg" alt="Rocks"></div>
+    <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <!-- Navigation & Logo -->
+  <header class="container">
+    <img src="images/kt_logo_header.jpg" alt="KT Logo" class="site-logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html">Contact</a>
+      <a href="ar/gallery.html">العربية</a>
+    </nav>
+  </header>
+
+  <!-- Lightbox Container -->
+  <div id="lightbox-overlay" onclick="closeLightbox()">
+    <span class="close-btn">&times;</span>
+    <img id="lightbox-img" src="" alt="Enlarged Image">
+  </div>
+
+  <main class="container section">
+    <!-- Wall Cladding Thumbnails -->
+    <h2 class="section-title">Wall Cladding</h2>
+    <div class="gallery-grid">
+	<div class="gallery-item"><img src="images/wall_cladding/wc3.jpg" alt="Wall Cladding 1"></div>     
+ 	<div class="gallery-item"><img src="images/wall_cladding/wc1.jpg" alt="Wall Cladding 1"></div>
+      <div class="gallery-item"><img src="images/wall_cladding/wc10.jpg" alt="Wall Cladding 3"></div>
+      <div class="gallery-item"><img src="images/wall_cladding/wc4.jpg" alt="Wall Cladding 4"></div>
+	<div class="gallery-item"><img src="images/wall_cladding/wc5.jpg" alt="Wall Cladding 1"></div>
+	<div class="gallery-item"><img src="images/wall_cladding/wc6.jpg" alt="Wall Cladding 1"></div>
+	<div class="gallery-item"><img src="images/wall_cladding/wc7.jpg" alt="Wall Cladding 1"></div>
+<div class="gallery-item"><img src="images/wall_cladding/wc8.jpg" alt="Wall Cladding 1"></div>
+<div class="gallery-item"><img src="images/wall_cladding/wc9.jpg" alt="Wall Cladding 1"></div>
+    </div>
+
+    <!-- Landscaping Material Thumbnails -->
+    <h2 class="section-title">Landscaping Material</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="images/landscaping_materials/lm1.jpg" alt="Landscaping 1"></div>
+      <div class="gallery-item"><img src="images/landscaping_materials/lm2.jpg" alt="Landscaping 2"></div>
+	<div class="gallery-item"><img src="images/landscaping_materials/lm3.jpg" alt="Landscaping 1"></div>
+	<div class="gallery-item"><img src="images/landscaping_materials/lm4.jpg" alt="Landscaping 1"></div>
+      <div class="gallery-item"><img src="images/landscaping_materials/lm5.jpg" alt="Landscaping 5"></div>
+	<div class="gallery-item"><img src="images/landscaping_materials/lm7.jpg" alt="Landscaping 1"></div>
+	<div class="gallery-item"><img src="images/landscaping_materials/lm8.jpg" alt="Landscaping 1"></div>
+      <div class="gallery-item"><img src="images/landscaping_materials/lm9.jpg" alt="Landscaping 9"></div>
+	<div class="gallery-item"><img src="images/landscaping_materials/lm10.jpg" alt="Landscaping 1"></div>
+    </div>
+
+    <!-- Stone Artifacts Thumbnails -->
+    <h2 class="section-title">Stone Artifacts</h2>
+    <div class="gallery-grid">
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art1.jpg" alt="Stone Artifact 2"></div>
+      	<div class="gallery-item"><img src="images/stone_artifacts/s_art2.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art3.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art4.jpg" alt="Stone Artifact 2"></div>
+      	<div class="gallery-item"><img src="images/stone_artifacts/s_art5.jpg" alt="Stone Artifact 5"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art6.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art7.jpg" alt="Stone Artifact 2"></div>
+      	<div class="gallery-item"><img src="images/stone_artifacts/s_art8.jpg" alt="Stone Artifact 8"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art9.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art10.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art11.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art12.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art13.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art14.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art15.jpg" alt="Stone Artifact 2"></div>
+	<div class="gallery-item"><img src="images/stone_artifacts/s_art16.jpg" alt="Stone Artifact 2"></div>
+      	<div class="gallery-item"><img src="images/stone_artifacts/s_art17.jpg" alt="Stone Artifact 18"></div>
+    </div>
+
+    <!-- Water Features Thumbnails -->
+    <h2 class="section-title">Water Features</h2>
+    <div class="gallery-grid">
+      	<div class="gallery-item"><img src="images/water_feature/wf6.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf1.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf2.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf3.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf4.jpg" alt="Water Feature 1"></div>
+      <div class="gallery-item"><img src="images/water_feature/wf5.jpg" alt="Water Feature 5"></div>
+		<div class="gallery-item"><img src="images/water_feature/wf7.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf8.jpg" alt="Water Feature 1"></div>
+      <div class="gallery-item"><img src="images/water_feature/wf9.jpg" alt="Water Feature 9"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf10.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf11.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf12.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf13.jpg" alt="Water Feature 1"></div>
+	<div class="gallery-item"><img src="images/water_feature/wf14.jpg" alt="Water Feature 1"></div>
+      <div class="gallery-item"><img src="images/water_feature/wf15.jpg" alt="Water Feature 12"></div>
+    </div>
+
+    <!-- Walkways & Flooring Thumbnails -->
+    <h2 class="section-title">Walkways & Flooring</h2>
+    <div class="gallery-grid">
+	<div class="gallery-item"><img src="images/walkways_flooring/w1.jpg" alt="Walkway 2"></div>
+      <div class="gallery-item"><img src="images/walkways_flooring/w2.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w3.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w4.jpg" alt="Walkway 2"></div>
+      <div class="gallery-item"><img src="images/walkways_flooring/w5.jpg" alt="Walkway 5"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w6.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w7.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w8.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w9.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w10.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w11.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w12.jpg" alt="Walkway 2"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w13.jpg" alt="Walkway 2"></div>
+      <div class="gallery-item"><img src="images/walkways_flooring/w14.jpg" alt="Walkway 9"></div>
+      <div class="gallery-item"><img src="images/walkways_flooring/w15.jpg" alt="Walkway 18"></div>
+	<div class="gallery-item"><img src="images/walkways_flooring/w16.jpg" alt="Walkway 2"></div>
+    </div>
+
+    <!-- Project Videos Section -->
+    <h2 class="section-title">Project Videos</h2>
+    <div class="video-grid">
+      <div class="video-item">
+        <video controls poster="images/portfolio/video1-poster.jpg">
+          <source src="videos/edge_cutting.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Edge Cutting Machines</p>
+      </div>
+      <div class="video-item">
+        <video controls poster="images/portfolio/video2-poster.jpg">
+          <source src="videos/Travertine_steps.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Travertine Stairs</p>
+      </div>
+      <div class="video-item">
+        <video controls poster="images/portfolio/SS_W.jpg">
+          <source src="videos/SilverShine_Waterfall.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Silver Shine Waterfall</p>
+      </div>
+      <div class="video-item">
+        <video controls poster="images/portfolio/Quarry_Absolute.jpg">
+          <source src="videos/Quarry_Absolute.mp4" type="video/mp4">
+        </video>
+        <p class="video-caption">Absolute Black Quarry</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container section">
+    <p>&copy; 2025 KT Stone Exports. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Slideshow logic
+    let current = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    function showSlide(i) {
+      slides.forEach(s => s.classList.remove('active'));
+      slides[i].classList.add('active');
+    }
+    function changeSlide(d) {
+      current = (current + d + slides.length) % slides.length;
+      showSlide(current);
+    }
+    setInterval(() => changeSlide(1), 5000);
+
+    // Lightbox handlers
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+      img.addEventListener('click', () => {
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox-overlay').style.display = 'flex';
+      });
+    });
+    function closeLightbox() {
+      document.getElementById('lightbox-overlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

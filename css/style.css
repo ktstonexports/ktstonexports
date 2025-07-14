@@ -1,0 +1,287 @@
+/* === Global Color Reset === */
+:root {
+  --primary-text: #333333;
+  --heading-text: #6b4f4f;
+  --link-default: #6b4f4f;
+  --link-hover: #b76e79;
+}
+
+html, body {
+  color: var(--primary-text) !important;
+  background: #f7f1df;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Ensure all headings use the same heading color */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-text) !important;
+}
+
+/* Nav links */
+header.container nav a {
+  color: var(--link-default) !important;
+}
+header.container nav a:hover,
+header.container nav a.active {
+  color: #fff !important;         /* active/hover text is white */
+  background: var(--link-hover) !important;
+}
+
+
+/* 1) Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap');
+
+/* 2) Base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #f7f1df;
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* 3) Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: #6b4f4f;
+  margin: 0 0 1rem;
+}
+
+/* 4) Hero Slideshow Styles */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+.hero-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.hero-slide.active {
+  opacity: 1;
+}
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 5) Navigation Arrows */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+}
+.nav-btn.prev { left: 10px; }
+.nav-btn.next { right: 10px; }
+
+/* 6) Navigation Bar Styles */
+header.container nav {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  font-family: 'Playfair Display', serif;
+}
+header.container nav a {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: #6b4f4f;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s, color 0.3s;
+}
+header.container nav a:hover {
+  background: rgba(183,110,121,0.2);
+  color: #b76e79;
+  border-radius: 4px;
+}
+header.container nav a.active {
+  background: #b76e79;
+  color: #fff;
+  border-radius: 4px;
+}
+
+/* 7) Site Logo */
+.site-logo {
+  height: 50px;
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+/* 8) Grid Layouts */
+.grid, .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* 9) Product Cards */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* 10) Thumbnails */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  padding-top: 75%;    /* 4:3 aspect ratio */
+  border-radius: 4px;
+  cursor: pointer;
+}
+.gallery-item img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* 11) Video Grid */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.video-item {
+  text-align: center;
+}
+.video-item video {
+  width: 100%;
+  border: 2px solid #b76e79;
+  border-radius: 8px;
+}
+.video-caption {
+  margin-top: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  color: #444;
+  font-style: italic;
+}
+.section-title {
+  display: block;          /* ensure full‑width block */
+  width: 100%;             /* span the container */
+  text-align: center;      /* center the text inside */
+  margin: 2rem auto 1rem;  /* vertical spacing + auto left/right */
+  font-family: 'Playfair Display', serif;
+  color: #b76e79;
+}
+
+/* Contact‑page layout tweaks */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+  gap: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-grid h3 {
+  font-size: 1.6rem;
+}
+
+.contact-grid p,
+.contact-grid label {
+  font-size: 1.25rem;
+}
+
+.contact-grid input,
+.contact-grid textarea {
+  width: 100%;
+  max-width: 400px;
+  font-size: 1.125rem;
+  padding: .5rem;
+}
+
+#contact-form button {
+  font-size: 1.2rem;
+  padding: .75rem 1.5rem;
+  margin-top: 1rem;
+}
+
+iframe {
+  max-width: 800px;
+  width: 100%;
+  height: 300px;
+  border: 0;
+  margin: 2rem auto;
+  display: block;
+}
+
+/* Contact‐form centering & spacing */
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* center all child blocks */
+  gap: 1rem;                  /* space between fields */
+  width: 100%;
+  max-width: 500px;           /* prevent it from getting too wide */
+  margin: 0 auto;             /* center the form itself */
+}
+
+#contact-form label {
+  align-self: flex-start;     /* keep label text left‐aligned above its field */
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;                /* fill the form’s max width */
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#contact-form button {
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 60px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+

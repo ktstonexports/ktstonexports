@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Download or view KT Stone Exports full product catalogue.">
+  <meta name="keywords" content="KT Stone catalogue, PDF, download, stone products">
+  <title>Catalogue – KT Stone Exports</title>
+  <link rel="icon" href="images/KT_Logo.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+
+  <!-- Hero Slideshow Header -->
+  <div class="hero-container">
+    <div class="hero-slide active"><img src="images/Quarry1.jpeg" alt="Quarry 1"></div>
+    <div class="hero-slide"><img src="images/quarry2.jpeg" alt="Quarry 2"></div>
+    <div class="hero-slide"><img src="images/quarry3.jpeg" alt="Quarry 3"></div>
+    <div class="hero-slide"><img src="images/rocks2.jpg" alt="Rocks 2"></div>
+    <div class="hero-slide"><img src="images/rocks3.jpg" alt="Rocks 3"></div>
+    <div class="hero-slide"><img src="images/rocks4.jpg" alt="Rocks 4"></div>
+    <div class="hero-slide"><img src="images/lm5.jpg" alt="Landscaping 5"></div>
+    <div class="hero-slide"><img src="images/lm9.jpg" alt="Landscaping 9"></div>
+    <div class="hero-slide"><img src="images/wc2.jpg" alt="Wall Cladding 2"></div>
+    <div class="hero-slide"><img src="images/wc8.jpg" alt="Wall Cladding 8"></div>
+    <div class="hero-slide"><img src="images/s_art2.jpg" alt="Stone Artifact 2"></div>
+    <div class="hero-slide"><img src="images/s_art18.jpg" alt="Stone Artifact 18"></div>
+    <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <!-- Navigation & Logo -->
+  <header class="container">
+    <img src="images/kt_logo_header.jpg" alt="KT Logo" class="site-logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="catalogue.html" class="active">Catalogue</a>
+      <a href="contact.html">Contact</a>
+      <a href="ar/catalogue.html">العربية</a>
+    </nav>
+  </header>
+
+  <!-- Catalogue Content -->
+  <main class="container section">
+    <h2>Our Catalogue</h2>
+    <div class="catalogue-viewer">
+      <embed src="pdf/catalogue.pdf#view=fitH" 
+             type="application/pdf" width="100%" height="600px" />
+    </div>
+    <p class="download-link">
+      <a href="pdf/catalogue.pdf" download>
+        &#128190; Download the full catalogue (PDF)
+      </a>
+    </p>
+  </main>
+
+  <!-- Footer -->
+  <footer class="container section">
+    <p>&copy; 2025 KT Stone Exports. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

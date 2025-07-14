@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta & SEO -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact KT Stone Exports for inquiries, quotes, and support.">
+  <meta name="keywords" content="KT Stone Exports, contact, inquiry, quote, stone exports, WhatsApp">
+  <title>Contact – KT Stone Exports</title>
+
+  <!-- Fonts & Favicon -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/kt_logo_header.jpg" type="image/png">
+
+  <!-- Styles & Scripts -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/script.js" defer></script>
+</head>
+<body>
+  <!-- Hero Slideshow Header -->
+  <div class="hero-container">
+    <div class="hero-slide active"><img src="images/Quarry1.jpeg" alt="Quarry Mines"></div>
+    <div class="hero-slide"><img src="images/quarry2.jpeg" alt="Quarry Site"></div>
+    <div class="hero-slide"><img src="images/quarry3.jpeg" alt="Quarry Mines"></div>
+    <div class="hero-slide"><img src="images/rocks2.jpg" alt="Stone Blocks"></div>
+    <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+    <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+  </div>
+
+  <!-- Navigation & Logo -->
+  <header class="container">
+    <img src="images/kt_logo_header.jpg" alt="KT Logo" class="site-logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="ar/contact.html">العربية</a>
+    </nav>
+  </header>
+
+  <div class="contact-grid">
+  <div>
+    <h3>Office Contacts</h3>
+    <p>
+      Email: <a href="mailto:Ktirfan@ktstonexports.com">Ktirfan@ktstonexports.com</a><br>
+      India Mobile: +91 8003669110<br>
+      WhatsApp: <a href="https://wa.me/96566056051" target="_blank">+965 6605 6051</a>
+    </p>
+  </div>
+  <div>
+    <h3>Send Us a Message</h3>
+    <form id="contact-form">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="from_name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="reply_to" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+    <h3>Our Location</h3>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d...YOUR_MAP_PARAMETERS..."
+      width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+    </iframe>
+  </main>
+
+  <!-- Footer -->
+  <footer class="container section">
+    <p>&copy; 2025 KT Stone Exports. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Form submission (placeholder)
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you! Your message has been sent.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
