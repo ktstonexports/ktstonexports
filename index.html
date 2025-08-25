@@ -8,37 +8,120 @@
   <meta name="keywords" content="granite, marble, sandstone, limestone, export, GCC, stone artifacts, wall cladding, water features">
   <title>Home – KT Stone Exports</title>
 
-  <!-- Elegant Google Font -->
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" href="images/KT_Logo.png" type="image/png">
-  <!-- Site CSS & Hero/Lightbox JS -->
+
+  <!-- CSS + Font Awesome -->
   <link rel="stylesheet" href="css/style.css">
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  integrity="sha512-pVIcP3e+YlX8XNVevCk8TQXY4cPQF7UklSXx2sx5cixQ+nNP9+19Qro/i5b5QE7FTT2n7mNjV12z9L+4zYkQKw=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
-  <script src="js/script.js" defer></script>
-
-  <!-- Inline styles for About‐section animations & typography -->
+  <!-- Extra Styles -->
   <style>
-    body { font-family: 'Playfair Display', serif; color: #444; }
+    body { font-family: 'Playfair Display', serif; color: #444; margin: 0; }
     .section-title { font-size: 2.5rem; margin-bottom: 1rem; text-align: center; color: #b76e79; }
     .about-intro { max-width: 800px; margin: 0 auto 2rem; font-size: 1.125rem; line-height: 1.6; }
     .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 1s ease-out forwards; }
     @keyframes fadeInUp { to { opacity:1; transform: translateY(0); } }
+
+    /* Hero slideshow */
+    .hero-container {
+      position: relative;
+      max-height: 90vh;
+      overflow: hidden;
+    }
+    .hero-slide {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-slide.active {
+      display: block;
+      animation: fade 1.2s ease-in-out;
+    }
+    @keyframes fade {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .nav-btn.prev { left: 10px; }
+    .nav-btn.next { right: 10px; }
+
+    /* Floating WhatsApp button */
+    .whatsapp-float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .whatsapp-float i {
+      margin-top: 15px;
+    }
+    .whatsapp-float:hover {
+      background-color: #20ba5a;
+    }
+
+    /* Simple container */
+    .container {
+      padding: 20px;
+    }
+    header.container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .site-logo {
+      height: 60px;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #444;
+      font-weight: 600;
+    }
+    nav a.active {
+      color: #b76e79;
+    }
   </style>
 </head>
 <body>
-  <!-- Hero Slideshow Header -->
-  <div class="hero-container">
+  <!-- Hero Slideshow -->
+  <div class="hero-container" id="hero">
     <div class="hero-slide active"><img src="images/Quarry1.jpeg" alt="Quarry Mines"></div>
     <div class="hero-slide"><img src="images/quarry2.jpeg" alt="Quarry Mines 2"></div>
     <div class="hero-slide"><img src="images/quarry3.jpeg" alt="Quarry Mines 3"></div>
-    <div class="hero-slide"><img src="images/rocks2.jpg"    alt="Stone Blocks"></div>
+    <div class="hero-slide"><img src="images/rocks2.jpg" alt="Stone Blocks"></div>
     <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
     <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
   </div>
@@ -57,47 +140,90 @@
   </header>
 
   <main class="container section">
-    <!-- Existing Home Intro (if any) -->
     <h2 class="section-title fade-in-up" style="animation-delay:0.2s">Welcome to KT Stone Exports</h2>
     <p class="about-intro fade-in-up" style="animation-delay:0.4s">
       Discover our extensive range of natural stone products, from premium marbles and granites to sandstone and limestone, sourced from India, Europe, and beyond.
     </p>
 
-    <!-- ABOUT SECTION INSERTED HERE -->
     <h2 class="section-title fade-in-up" style="animation-delay:0.6s">Who We Are</h2>
     <p class="about-intro fade-in-up" style="animation-delay:0.8s">
-      KT Stone Export Co. has been doing successful jobs in different verticals of the construction business since 2002, supplying natural stone, marble and granite exclusively from India, Europe (mainly Italy) and China. Our prime focus is on serving major contractors and sub‑contractors in the GCC market. Our full product portfolio is available in the download section.
+      KT Stone Export Co. has been doing successful jobs in different verticals of the construction business since 2002, supplying natural stone, marble and granite exclusively from India, Europe (mainly Italy) and China. Our prime focus is on serving major contractors and sub-contractors in the GCC market. Our full product portfolio is available in the download section.
     </p>
 
     <h2 class="section-title fade-in-up" style="animation-delay:1s">Our Operations</h2>
     <p class="about-intro fade-in-up" style="animation-delay:1.2s">
-      Operating from our headquarters in Bedwa, Rajasthan, we service major contractors in construction and design. Our state‑of‑the‑art quarry and production facilities ensure top‑quality materials, from raw blocks to finished tiles.
+      Operating from our headquarters in Bedwa, Rajasthan, we service major contractors in construction and design. Our state-of-the-art quarry and production facilities ensure top-quality materials, from raw blocks to finished tiles.
     </p>
 
     <h2 class="section-title fade-in-up" style="animation-delay:1.4s">Factory & Quarry</h2>
     <div class="gallery-grid fade-in-up" style="animation-delay:1.6s">
       <div class="gallery-item"><img src="images/marblefactory1.jpg" alt="Marble Factory"></div>
-      <div class="gallery-item"><img src="images/quarry2.jpg"         alt="Quarry Site"></div>
+      <div class="gallery-item"><img src="images/quarry2.jpg" alt="Quarry Site"></div>
     </div>
-    <!-- END ABOUT SECTION -->
-
-    <!-- You can continue with other Home sections here… -->
   </main>
 
   <!-- Footer -->
   <footer class="container section">
     <p>&copy; 2025 KT Stone Exports. All rights reserved.</p>
   </footer>
-<!-- Floating WhatsApp Chat Button -->
-<a
-  href="https://wa.me/96566056051"
-  class="whatsapp-float"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Chat on WhatsApp"
->
-  <i class="fab fa-whatsapp"></i>
-</a>
 
+  <!-- Floating WhatsApp Chat Button -->
+  <a
+    href="https://wa.me/96566056051"
+    class="whatsapp-float"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat on WhatsApp"
+  >
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Hero Slideshow JS with Swipe Support -->
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".hero-slide");
+    const hero = document.getElementById("hero");
+
+    function showSlide(n) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active");
+        if (i === n) slide.classList.add("active");
+      });
+    }
+
+    function changeSlide(step) {
+      currentSlide = (currentSlide + step + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // Auto play every 5s
+    let slideTimer = setInterval(() => changeSlide(1), 5000);
+
+    // Swipe detection
+    let startX = 0;
+    let endX = 0;
+
+    hero.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    hero.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      let diff = endX - startX;
+
+      if (Math.abs(diff) > 50) { // threshold to detect swipe
+        if (diff > 0) {
+          changeSlide(-1); // swipe right → previous
+        } else {
+          changeSlide(1); // swipe left → next
+        }
+        clearInterval(slideTimer); // reset autoplay
+        slideTimer = setInterval(() => changeSlide(1), 5000);
+      }
+    });
+
+    // Show first slide
+    showSlide(currentSlide);
+  </script>
 </body>
 </html>
