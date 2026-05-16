@@ -9,49 +9,54 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* Global Page & UI Settings */
-    .verify-wrapper { max-width: 900px; margin: 40px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
-    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 40px; position: relative; overflow: hidden; }
+    /* Main interactive responsive window container setup */
+    .verify-wrapper { max-width: 800px; margin: 30px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
+    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; box-sizing: border-box; }
     
-    /* Elegant Letterhead Styling (Only shows completely when printing/downloading) */
-    .letterhead-header { display: none; border-bottom: 3px double #6b4f4f; padding-bottom: 15px; margin-bottom: 25px; }
-    .lh-title { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 2.4rem; font-weight: 700; letter-spacing: 1px; margin: 0 0 5px 0; }
-    .lh-details { font-size: 0.85rem; color: #444; line-height: 1.5; margin: 0; }
-    
-    /* Screen View Header Layout */
-    .web-header-block { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f7f1df; padding-bottom: 15px; margin-bottom: 25px; }
-    .verified-badge { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase; }
-    
-    /* Two-Column Specs Layout */
-    .portal-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 35px; position: relative; z-index: 2; }
-    @media (max-width: 768px) { .portal-grid { grid-template-columns: 1fr; } }
-    
-    .stone-display-box { display: flex; flex-direction: column; gap: 12px; }
-    .stone-preview-img { width: 100%; height: 290px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; background: #fafafa; }
-    
-    .tech-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    .tech-table td { padding: 16px 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
-    .tech-table tr:last-child td { border-bottom: none; }
-    
-    /* Print Utility Buttons */
-    .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 35px; position: relative; z-index: 3; }
-    @media (max-width: 480px) { .action-buttons { grid-template-columns: 1fr; } }
-    
-    .btn-verify { display: block; text-align: center; padding: 14px; text-decoration: none; font-weight: 700; border-radius: 4px; transition: 0.3s; cursor: pointer; font-size: 0.95rem; box-sizing: border-box; }
-    .btn-primary { background: #b76e79; color: #fff; border: none; }
-    .btn-primary:hover { background: #6b4f4f; }
-    .btn-secondary { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
-    .btn-secondary:hover { background: #6b4f4f; color: #fff; }
+    /* Dedicated Print Frame Layout (Forces 595pt absolute A4 block width to fix clipping) */
+    #print-document-frame {
+      width: 100%;
+      max-width: 595pt; 
+      margin: 0 auto;
+      padding: 20pt;
+      box-sizing: border-box;
+      background: #ffffff;
+      position: relative;
+    }
 
-    /* == EXCLUSIVE PRINT CONVERSION OVERRIDES == */
-    .print-mode .letterhead-header { display: block !important; }
-    .print-mode .web-header-block { display: none !important; }
-    .print-mode .action-buttons { display: none !important; }
-    .print-mode .verify-container { box-shadow: none !important; padding: 20px !important; background: transparent !important; }
+    /* Embedded Document Header Letterhead Layout */
+    .lh-table-block { width: 100%; border-collapse: collapse; margin-bottom: 25pt; border-bottom: 2px solid #6b4f4f; }
+    .lh-title-text { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 26pt; font-weight: 700; margin: 0 0 5pt 0; line-height: 1.1; }
+    .lh-desc-text { font-size: 9.5pt; color: #333333; line-height: 1.4; margin: 0; font-family: 'Open Sans', sans-serif; }
     
-    /* Background Watermark for Printed Copy */
-    .print-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-100%, -100%) scale(0.4); opacity: 0.04; z-index: 1; pointer-events: none; display: none; }
-    .print-mode .print-watermark { display: block !important; }
+    /* Standard structural block components */
+    .verified-badge-stamp { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 4pt 12pt; border-radius: 50px; font-size: 9pt; display: inline-block; text-transform: uppercase; margin-bottom: 15pt; }
+    
+    /* Strict layout alignment engine for data results */
+    .content-layout-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .image-column-box { width: 45%; vertical-align: top; padding-right: 20pt; }
+    .specs-column-box { width: 55%; vertical-align: top; }
+    
+    .stone-photo-render { width: 100%; height: 210pt; object-fit: cover; border-radius: 4px; border: 1px solid #dddddd; display: block; }
+    .stone-label-caption { font-family: 'Playfair Display', serif; font-size: 14pt; color: #6b4f4f; font-weight: 700; margin: 8pt 0 2pt 0; }
+    .stone-sub-caption { font-size: 8.5pt; color: #666666; margin: 0; font-style: italic; }
+    
+    /* Core Technical Spec Metric Layout Rows */
+    .data-matrix-table { width: 100%; border-collapse: collapse; margin-top: 5pt; table-layout: fixed; }
+    .data-matrix-table td { padding: 12pt 8pt; border-bottom: 1px solid #eeeeee; font-size: 10pt; word-wrap: break-word; }
+    .data-matrix-table tr:last-child td { border-bottom: none; }
+    
+    /* Website Interactive Command Buttons */
+    .action-row-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+    @media (max-width: 480px) { .action-row-buttons { grid-template-columns: 1fr; } }
+    .btn-action-trigger { display: block; text-align: center; padding: 13px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 0.95rem; cursor: pointer; box-sizing: border-box; }
+    .btn-primary-accent { background: #b76e79; color: #fff; border: none; }
+    .btn-primary-accent:hover { background: #6b4f4f; }
+    .btn-secondary-border { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
+    .btn-secondary-border:hover { background: #6b4f4f; color: #fff; }
+
+    /* Faded Watermark Backdrop Background Overlay */
+    .watermark-overlay-bg { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 280pt; height: auto; opacity: 0.04; pointer-events: none; z-index: 1; }
   </style>
 </head>
 <body>
@@ -69,58 +74,64 @@
   </header>
   
   <div class="verify-wrapper">
-    <main class="verify-container" id="printable-area">
+    <div class="verify-container">
       
-      <img src="images/kt_logo_header.jpg" class="print-watermark" alt="Watermark Logo">
-
-      <div class="letterhead-header">
-        <h1 class="lh-title">KT EXPORTS</h1>
-        <p class="lh-details">
-          <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
-          <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
-          <strong>Registered Plant Office:</strong> Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
-        </p>
-      </div>
-
-      <div class="web-header-block">
-        <h2 id="display-name" style="margin: 0; font-family: 'Playfair Display', serif; font-size: 1.7rem;">Technical Verification</h2>
-        <div class="verified-badge">✓ QC Verified Certificate</div>
-      </div>
-      
-      <div class="portal-grid">
-        <div class="stone-display-box">
-          <img id="stone-image" src="images/products/granite.jpg" alt="Selected Natural Stone Surface Profile" class="stone-preview-img">
-          <p id="print-sub-heading" style="font-size: 1.1rem; color: #6b4f4f; font-weight: 700; margin: 5px 0 0 0; font-family: 'Playfair Display', serif;"></p>
-          <p style="font-size: 0.8rem; color: #777; font-style: italic; margin: 0;">Verified structural batch layout reference.</p>
-        </div>
+      <div id="print-document-frame">
         
-        <div>
-          <table class="tech-table">
-            <tr>
-              <td><strong>Compressive Strength</strong></td>
-              <td id="val-strength" style="color: #222;">-</td>
-            </tr>
-            <tr>
-              <td><strong>Water Absorption</strong></td>
-              <td id="val-absorption" style="color: #222;">-</td>
-            </tr>
-            <tr>
-              <td><strong>Bulk Density</strong></td>
-              <td id="val-density" style="color: #222;">-</td>
-            </tr>
-            <tr>
-              <td><strong>Compliance Rating</strong></td>
-              <td id="val-astm" style="color: #27ae60; font-weight: 700;">-</td>
-            </tr>
-          </table>
-        </div>
+        <img src="images/kt_logo_header.jpg" class="watermark-overlay-bg" alt="Watermark Background Graphic">
+
+        <table class="lh-table-block">
+          <tr>
+            <td style="padding-bottom: 12pt;">
+              <h1 class="lh-title-text">KT EXPORTS</h1>
+              <p class="lh-desc-text">
+                <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
+                <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
+                <strong>Main Road Plant Office:</strong> Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <div class="verified-badge-stamp">✓ QC Verified Certificate</div>
+        
+        <table class="content-layout-table">
+          <tr>
+            <td class="image-column-box">
+              <img id="stone-image" src="images/products/granite.jpg" alt="Natural Stone Inspection Batch Layout Profile" class="stone-photo-render">
+              <div id="lbl-stone-title" class="stone-label-caption">Natural Stone Spec Block</div>
+              <p class="stone-sub-caption">Verified batch reference sample.</p>
+            </td>
+            
+            <td class="specs-column-box">
+              <table class="data-matrix-table">
+                <tr>
+                  <td style="width: 50%;"><strong>Compressive Strength</strong></td>
+                  <td id="val-strength" style="color: #222; font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Water Absorption</strong></td>
+                  <td id="val-absorption" style="color: #222; font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Bulk Density</strong></td>
+                  <td id="val-density" style="color: #222; font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Compliance Standard</strong></td>
+                  <td id="val-astm" style="color: #27ae60; font-weight: 700;">-</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+      </div> <div class="action-row-buttons">
+        <button onclick="generatePDF()" class="btn-action-trigger btn-secondary-border">📥 DOWNLOAD CERTIFICATE</button>
+        <a href="contact.html" class="btn-action-trigger btn-primary-accent">REQUEST BATCH TDS (PDF)</a>
       </div>
 
-      <div class="action-buttons">
-        <button onclick="generatePDF()" class="btn-verify btn-secondary">📥 DOWNLOAD CERTIFICATE</button>
-        <a href="contact.html" class="btn-verify btn-primary">REQUEST BATCH TDS (PDF)</a>
-      </div>
-    </main>
+    </div>
   </div>
 
   <footer class="container section" style="text-align: center; padding: 20px 0; margin-top: 50px; border-top: 1px solid #e0e0e0;">
@@ -128,7 +139,7 @@
   </footer>
 
   <script>
-    // Universal Core Quality Control Registry
+    // System Master Reference Quality Directory Registry Matrix 
     const stoneRegistry = {
       "raj-green": {
         name: "Raj Green Sandstone (SP2)",
@@ -144,7 +155,7 @@
         absorption: "0.15% - 0.50%",
         density: "2,800 - 3,000 kg/m³",
         astm: "Industrial Heavy Structural Grade",
-        img: "images/walkway_flooring/wc8.jpg" 
+        img: "images/walkways_flooring/wc8.jpg" 
       },
       "cuddapah-black": {
         name: "Cuddapah Black Limestone (SP5)",
@@ -160,7 +171,7 @@
         absorption: "0.50% - 1.20%",
         density: "2,400 - 2,500 kg/m³",
         astm: "ASTM C1527 Grade II Standard",
-        img: "images/products/travertine.jpg"
+        img: "images/products/viola.jpg"
       },
       "alaska-white": {
         name: "Alaska White Granite (SP1)",
@@ -180,15 +191,14 @@
       }
     };
 
-    // Parse URL Parameter query flags
+    // Grab string parameter details flag from link query tracking strings
     const urlParams = new URLSearchParams(window.location.search);
     const stoneKey = urlParams.get('stone');
 
     if (stoneKey && stoneRegistry[stoneKey]) {
       const stoneData = stoneRegistry[stoneKey];
       
-      document.getElementById('display-name').innerText = stoneData.name;
-      document.getElementById('print-sub-heading').innerText = stoneData.name;
+      document.getElementById('lbl-stone-title').innerText = stoneData.name;
       document.getElementById('val-strength').innerText = stoneData.strength;
       document.getElementById('val-absorption').innerText = stoneData.absorption;
       document.getElementById('val-density').innerText = stoneData.density;
@@ -198,28 +208,28 @@
         document.getElementById('stone-image').src = stoneData.img;
       }
     } else {
-      document.getElementById('display-name').innerText = "Select Product Batch via QR Scanner";
+      document.getElementById('lbl-stone-title').innerText = "Select Product via QR Code";
     }
 
-    // Dynamic High-Fidelity PDF Printing Function
+    // High-Fidelity PDF Canvas Compilation Printing Configuration Function Block
     function generatePDF() {
-      const cardContainer = document.getElementById('printable-area');
-      
-      // Inject print configuration styling rules temporarily
-      cardContainer.classList.add('print-mode');
+      const printTargetElement = document.getElementById('print-document-frame');
       
       const opt = {
-        margin:       [15, 15, 15, 15],
+        margin:       [10, 10, 10, 10],
         filename:     'KT_Stone_Compliance_Certificate.pdf',
         image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        html2canvas:  { 
+          scale: 3,             // Drastically improves text rendering resolution
+          useCORS: true,        // Prevents images from blocking across canvas generations
+          scrollX: 0, 
+          scrollY: 0 
+        },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       
-      html2pdf().set(opt).from(cardContainer).save().then(() => {
-        // Immediately remove temporary classes to restore clean interactive screen viewing view
-        cardContainer.classList.remove('print-mode');
-      });
+      // Execute capture stream cleanly
+      html2pdf().set(opt).from(printTargetElement).save();
     }
   </script>
 </body>
