@@ -6,40 +6,73 @@
   <title>Material Verification Portal – KT Stone Exports</title>
   <link rel="stylesheet" href="css/style.css">
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
-    /* User Interface Styling */
-    .verify-wrapper { max-width: 700px; margin: 40px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
-    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 35px; box-sizing: border-box; }
+    /* Global Page UI Layouts */
+    .verify-wrapper { max-width: 750px; margin: 30px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
+    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 20px; box-sizing: border-box; }
     
-    .letterhead-preview { border-bottom: 2px solid #6b4f4f; padding-bottom: 15px; margin-bottom: 25px; }
-    .lh-company { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 24px; font-weight: 700; margin: 0 0 5px 0; }
-    .lh-text { font-size: 13px; color: #333; line-height: 1.5; margin: 0; }
+    /* Dedicated Print Canvas Frame (Enforces absolute crisp A4 boundaries) */
+    #print-document-canvas {
+      width: 100%;
+      max-width: 595pt;
+      margin: 0 auto;
+      padding: 25pt;
+      box-sizing: border-box;
+      background: #ffffff;
+      position: relative;
+    }
+
+    /* Elegant Structural Corporate Letterhead Banner */
+    .lh-frame-table { width: 100%; border-collapse: collapse; margin-bottom: 20pt; border-bottom: 3px double #6b4f4f; }
+    .lh-title { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 26pt; font-weight: 700; margin: 0 0 4pt 0; line-height: 1.1; }
+    .lh-text-details { font-size: 9.5pt; color: #333333; line-height: 1.5; margin: 0; }
     
-    .badge-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .status-stamp { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 4px 12px; border-radius: 50px; font-size: 12px; text-transform: uppercase; display: inline-block; }
+    /* Meta Row Stamp & QR Positionings */
+    .meta-layout-table { width: 100%; border-collapse: collapse; margin-bottom: 20pt; }
+    .status-stamp-badge { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 4pt 12pt; border-radius: 50px; font-size: 9pt; display: inline-block; text-transform: uppercase; }
     
-    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-    @media (max-width: 600px) { .main-grid { grid-template-columns: 1fr; } }
+    .qr-alignment-column { text-align: right; display: flex; flex-direction: column; align-items: flex-end; }
+    .qr-border-box { padding: 4pt; background: #fff; border: 1px solid #eeeeee; display: inline-block; }
+    .qr-caption-label { font-size: 7.5pt; color: #777777; text-transform: uppercase; margin-top: 4pt; letter-spacing: 0.5px; text-align: center; width: 80pt; }
+
+    /* Core Product Parameter Grids */
+    .product-core-table { width: 100%; border-collapse: collapse; margin-bottom: 20pt; }
+    .side-photo-pane { width: 42%; vertical-align: top; padding-right: 20pt; }
+    .side-specs-pane { width: 58%; vertical-align: top; }
     
-    .stone-img-frame { width: 100%; height: 230px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; }
-    .stone-title { font-family: 'Playfair Display', serif; font-size: 18px; color: #6b4f4f; font-weight: 700; margin: 10px 0 5px 0; }
+    .stone-render-img { width: 100%; height: 200pt; object-fit: cover; border-radius: 4px; border: 1px solid #dddddd; display: block; }
+    .stone-display-title { font-family: 'Playfair Display', serif; font-size: 15pt; color: #6b4f4f; font-weight: 700; margin: 10px 0 3px 0; line-height: 1.2; }
+    .stone-display-subtext { font-size: 8.5pt; color: #666666; margin: 0; font-style: italic; }
     
-    .data-table { width: 100%; border-collapse: collapse; }
-    .data-table td { padding: 12px 8px; border-bottom: 1px solid #eee; font-size: 14px; color: #222; }
-    .data-table tr:last-child td { border-bottom: none; }
+    /* Specs Data Grid styling */
+    .specs-matrix-table { width: 100%; border-collapse: collapse; }
+    .specs-matrix-table td { padding: 11pt 8pt; border-bottom: 1px solid #eeeeee; font-size: 10pt; color: #222222; }
+    .specs-matrix-table tr:last-child td { border-bottom: none; }
     
-    .action-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-    .btn-control { display: block; text-align: center; padding: 13px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 14px; cursor: pointer; box-sizing: border-box; }
-    .btn-fill { background: #b76e79; color: #fff; border: none; }
-    .btn-fill:hover { background: #6b4f4f; }
-    .btn-outline { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
-    .btn-outline:hover { background: #6b4f4f; color: #fff; }
+    /* Advanced Geochemical Profile Blocks */
+    .extended-specs-panel { margin-top: 15pt; border-top: 1px dashed #dddddd; padding-top: 15pt; }
+    .section-subtitle { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 13pt; font-weight: 700; margin: 0 0 10pt 0; }
     
-    /* Background Canvas Memory QR Buffer */
-    #hidden-qr-render { display: none; }
+    .oxide-matrix-table { width: 100%; border-collapse: collapse; margin-top: 10pt; }
+    .oxide-matrix-table td { padding: 7pt 8pt; border-bottom: 1px solid #f5f5f5; font-size: 9pt; color: #444444; }
+    
+    /* Interactive Screen Command Buttons Layout Area */
+    .action-panel-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; padding: 0 25pt; }
+    @media (max-width: 480px) { .action-panel-controls { grid-template-columns: 1fr; } }
+    .btn-action { display: block; text-align: center; padding: 13px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 0.95rem; cursor: pointer; box-sizing: border-box; }
+    .btn-solid-accent { background: #b76e79; color: #fff; border: none; }
+    .btn-solid-accent:hover { background: #6b4f4f; }
+    .btn-border-accent { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
+    .btn-border-accent:hover { background: #6b4f4f; color: #fff; }
+
+    /* Faded Corporate Watermark Background Layer */
+    .crest-watermark-bg { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 260pt; height: auto; opacity: 0.04; pointer-events: none; z-index: 0; }
+    
+    /* Dynamic profile section hide logic */
+    #basalt-chemical-section { display: none; }
   </style>
 </head>
 <body>
@@ -57,57 +90,120 @@
   </header>
 
   <div class="verify-wrapper">
-    <main class="verify-container">
+    <div class="verify-container">
       
-      <div class="letterhead-preview">
-        <h1 class="lh-company">KT EXPORTS</h1>
-        <p class="lh-text">
-          <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
-          <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
-          <strong>Plant Office:</strong> Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
-        </p>
-      </div>
-
-      <div class="badge-row">
-        <div class="status-stamp">✓ QC Verified Certificate</div>
-        <div id="hidden-qr-render"></div>
-      </div>
-
-      <div class="main-grid">
-        <div>
-          <img id="stone-image" src="images/products/granite.jpg" alt="Selected Stone Batch Profile Picture" class="stone-img-frame" crossorigin="anonymous">
-          <div id="lbl-stone-title" class="stone-title">Natural Stone Batch</div>
-          <p style="font-size: 12px; color: #666; font-style: italic; margin: 0;">Verified structural batch reference asset.</p>
-        </div>
+      <div id="print-document-canvas">
         
-        <div>
-          <table class="data-table">
+        <img src="images/kt_logo_header.jpg" class="crest-watermark-bg" alt="Watermark Graphic">
+
+        <table class="lh-frame-table">
+          <tr>
+            <td style="padding-bottom: 10pt;">
+              <h1 class="lh-title">KT EXPORTS</h1>
+              <p class="lh-text-details">
+                <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
+                <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
+                <strong>Plant Office:</strong> Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <table class="meta-layout-table">
+          <tr>
+            <td style="vertical-align: middle; text-align: left;">
+              <div class="status-stamp-badge">✓ QC Verified Certificate</div>
+            </td>
+            <td class="qr-alignment-column">
+              <div class="qr-border-box">
+                <div id="cert-qrcode"></div>
+              </div>
+              <div class="qr-caption-label">Scan to Re-Verify</div>
+            </td>
+          </tr>
+        </table>
+        
+        <table class="product-core-table">
+          <tr>
+            <td class="side-photo-pane">
+              <img id="stone-image" src="images/products/granite.jpg" alt="Natural Stone Inspection Batch Layout Profile" class="stone-render-img">
+              <div id="lbl-stone-title" class="stone-display-title">Natural Stone Batch</div>
+              </td>
+            
+            <td class="side-specs-pane">
+              <table class="specs-matrix-table">
+                <tr>
+                  <td style="width: 50%;"><strong>Compressive Strength</strong></td>
+                  <td id="val-strength" style="font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Water Absorption</strong></td>
+                  <td id="val-absorption" style="font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Bulk Density</strong></td>
+                  <td id="val-density" style="font-weight: 600;">-</td>
+                </tr>
+                <tr>
+                  <td><strong>Compliance Standard</strong></td>
+                  <td id="val-astm" style="color: #27ae60; font-weight: 700;">-</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+
+        <div id="basalt-chemical-section" class="extended-specs-panel">
+          <h3 class="section-subtitle">Chemical & Thermal Performance Profiles</h3>
+          
+          <table class="specs-matrix-table" style="margin-bottom: 15pt;">
             <tr>
-              <td><strong>Compressive Strength</strong></td>
-              <td id="val-strength" style="font-weight: 600; color: #333;">-</td>
+              <td style="width: 25%;"><strong>Moh's Hardness</strong></td>
+              <td style="width: 25%; font-weight: 600;">7 - 8 Mohs</td>
+              <td style="width: 25%;"><strong>Flexural Strength</strong></td>
+              <td style="width: 25%; font-weight: 600;">15 - 30 MPa</td>
             </tr>
             <tr>
-              <td><strong>Water Absorption</strong></td>
-              <td id="val-absorption" style="font-weight: 600; color: #333;">-</td>
+              <td><strong>Melting Range</strong></td>
+              <td style="font-weight: 600;">1100°C - 1250°C</td>
+              <td><strong>Max Service Temp</strong></td>
+              <td style="font-weight: 600;">650°C - 700°C</td>
             </tr>
             <tr>
-              <td><strong>Bulk Density</strong></td>
-              <td id="val-density" style="font-weight: 600; color: #333;">-</td>
+              <td><strong>Thermal Cond.</strong></td>
+              <td style="font-weight: 600;">1.0 - 1.7 W/(m·K)</td>
+              <td><strong>Chemical Resist.</strong></td>
+              <td style="font-weight: 600; color: #27ae60;">Highly Resistant</td>
+            </tr>
+          </table>
+
+          <h3 class="section-subtitle">Oxide Chemical Breakdown Table (%)</h3>
+          <table class="oxide-matrix-table">
+            <tr>
+              <td style="width: 35%;"><strong>Silicon Dioxide (SiO₂)</strong></td><td style="width: 15%; font-weight: 600;">45.0% - 52.0%</td>
+              <td style="width: 35%;"><strong>Aluminum Oxide (Al₂O₃)</strong></td><td style="width: 15%; font-weight: 600;">13.0% - 15.5%</td>
             </tr>
             <tr>
-              <td><strong>Compliance Standard</strong></td>
-              <td id="val-astm" style="font-weight: 700; color: #27ae60;">-</td>
+              <td><strong>Iron Oxides (Fe₂O₃ / FeO)</strong></td><td style="font-weight: 600;">9.0% - 12.0%</td>
+              <td>Calcium Oxide (CaO)</td><td style="font-weight: 600;">8.0% - 11.0%</td>
+            </tr>
+            <tr>
+              <td>Magnesium Oxide (MgO)</td><td style="font-weight: 600;">4.0% - 6.0%</td>
+              <td>Alkali Oxides (Na₂O + K₂O)</td><td style="font-weight: 600;">2.0% - 3.5%</td>
+            </tr>
+            <tr>
+              <td>Titanium Dioxide (TiO₂)</td><td style="font-weight: 600; margin-bottom: 0;">1.5% - 3.0%</td>
+              <td></td><td></td>
             </tr>
           </table>
         </div>
+
+      </div> <div class="action-panel-controls">
+        <button onclick="generateCleanPDF()" class="btn-action btn-solid-accent">📥 DOWNLOAD CERTIFICATE</button>
+        <a href="contact.html" class="btn-action btn-border-accent">REQUEST BATCH TDS (PDF)</a>
       </div>
 
-      <div class="action-controls">
-        <button onclick="generateOfficialPDF()" class="btn-control btn-fill">📥 DOWNLOAD CERTIFICATE</button>
-        <a href="contact.html" class="btn-control btn-outline">REQUEST BATCH TDS (PDF)</a>
-      </div>
-
-    </main>
+    </div>
   </div>
 
   <footer class="container section" style="text-align: center; padding: 20px 0; margin-top: 50px; border-top: 1px solid #e0e0e0;">
@@ -115,7 +211,7 @@
   </footer>
 
   <script>
-    // Master Registry Containing Synchronized Folders & Exact Filenames
+    // Master Registry Containing Synchronized Folder & Image Filenames
     const stoneRegistry = {
       "raj-green": {
         name: "Raj Green Sandstone (SP2)",
@@ -131,27 +227,11 @@
         absorption: "< 0.3% (Highly Impervious)",
         density: "2.70 - 2.95 g/cm³",
         astm: "High-Density Industrial Grade",
-        img: "images/walkways_floorings/w8.jpg",
-        extendedSpecs: {
-          hardness: "7 - 8 Mohs",
-          flexural: "15 - 30 MPa",
-          meltingPoint: "1100°C - 1250°C",
-          maxServiceTemp: "650°C - 700°C",
-          thermalConductivity: "1.0 - 1.7 W/(m·K)",
-          chemicalResistance: "High (Alkalies & Strong Acids)",
-          oxides: [
-            { name: "Silicon Dioxide (SiO₂)", value: "45.0% - 52.0%" },
-            { name: "Aluminum Oxide (Al₂O₃)", value: "13.0% - 15.5%" },
-            { name: "Iron Oxides (Fe₂O₃ / FeO)", value: "9.0% - 12.0%" },
-            { name: "Calcium Oxide (CaO)", value: "8.0% - 11.0%" },
-            { name: "Magnesium Oxide (MgO)", value: "4.0% - 6.0%" },
-            { name: "Alkali Oxides (Na₂O + K₂O)", value: "2.0% - 3.5%" },
-            { name: "Titanium Dioxide (TiO₂)", value: "1.5% - 3.0%" }
-          ]
-        }
+        img: "images/walkways_flooring/w8.jpg",
+        showChemicals: true
       },
       "cuddapah-black": {
-        name: "Cuddapah Black Limestone (SP5)",
+        name: "Kotah Black Limestone (SP5)",
         strength: "1,000 - 2,100 kg/cm²",
         absorption: "< 1.0% (Impervious Matrix)",
         density: "2,500 - 2,700 kg/m³",
@@ -184,209 +264,57 @@
       }
     };
 
-    // Parse active web URL search strings
+    // Extract active tracking query flags out of URL string parameters
     const urlParams = new URLSearchParams(window.location.search);
     const stoneKey = urlParams.get('stone');
-    let currentValidationUrl = window.location.href;
-
-    // Set fallback variables
-    let activeName = "Natural Stone Material";
-    let activeStrength = "-";
-    let activeAbsorption = "-";
-    let activeDensity = "-";
-    let activeAstm = "-";
-    let activeImgPath = "images/products/granite.jpg";
+    let dynamicValidationUrl = window.location.href;
 
     if (stoneKey && stoneRegistry[stoneKey]) {
       const stoneData = stoneRegistry[stoneKey];
       
-      activeName = stoneData.name;
-      activeStrength = stoneData.strength;
-      activeAbsorption = stoneData.absorption;
-      activeDensity = stoneData.density;
-      activeAstm = stoneData.astm;
-      activeImgPath = stoneData.img;
+      document.getElementById('lbl-stone-title').innerText = stoneData.name;
+      document.getElementById('val-strength').innerText = stoneData.strength;
+      document.getElementById('val-absorption').innerText = stoneData.absorption;
+      document.getElementById('val-density').innerText = stoneData.density;
+      document.getElementById('val-astm').innerText = stoneData.astm;
+      document.getElementById('stone-image').src = stoneData.img;
       
-      document.getElementById('lbl-stone-title').innerText = activeName;
-      document.getElementById('val-strength').innerText = activeStrength;
-      document.getElementById('val-absorption').innerText = activeAbsorption;
-      document.getElementById('val-density').innerText = activeDensity;
-      document.getElementById('val-astm').innerText = activeAstm;
-      document.getElementById('stone-image').src = activeImgPath;
+      if (stoneData.showChemicals) {
+        document.getElementById('basalt-chemical-section').style.display = "block";
+      }
     } else {
       document.getElementById('lbl-stone-title').innerText = "Select Product via QR Code";
-      currentValidationUrl = "https://ktstonexports.com/verify.html";
+      dynamicValidationUrl = "https://ktstonexports.com/verify.html";
     }
 
-    // Initialize scannable QR layout buffer in memory
-    const qrTargetDiv = document.getElementById("hidden-qr-render");
-    new QRCode(qrTargetDiv, {
-      text: currentValidationUrl,
-      width: 150,
-      height: 150,
-      correctLevel: QRCode.CorrectLevel.H
+    // Generate dynamic document QR Code inside layout canvas vector frame
+    new QRCode(document.getElementById("cert-qrcode"), {
+      text: dynamicValidationUrl,
+      width: 80,
+      height: 80,
+      colorDark : "#6b4f4f",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
     });
 
-    // Helper to bypass browser security and convert image files safely to Base64
-    function getBase64Image(imgElement) {
-      const canvas = document.createElement("canvas");
-      canvas.width = imgElement.naturalWidth;
-      canvas.height = imgElement.naturalHeight;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(imgElement, 0, 0);
-      return canvas.toDataURL("image/jpeg", 1.0);
-    }
-
-    // Native Vector Text PDF Generation Engine - Fixes blank pages entirely
-    function generateOfficialPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+    // High-Fidelity Snapshot PDF Compilation Function
+    function generateCleanPDF() {
+      const targetCanvasNode = document.getElementById('print-document-canvas');
+      const standardFilename = stoneKey ? 'KT_Certificate_' + stoneKey + '.pdf' : 'KT_Stone_Certificate.pdf';
       
-      // 1. Structural Borders & Frames
-      doc.setDrawColor(107, 79, 79); 
-      doc.setLineWidth(1);
-      doc.rect(10, 10, 190, 277); 
-      doc.line(15, 48, 195, 48); 
-
-      // 2. Vector Letterhead Headings Text Strings
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(26);
-      doc.setTextColor(107, 79, 79);
-      doc.text("KT EXPORTS", 15, 23);
-
-      doc.setFont("Helvetica", "normal");
-      doc.setFontSize(9.5);
-      doc.setTextColor(51, 51, 51);
-      doc.text("Mobiles: +91 9828287159, +91 8003669110   |   Emails: Ktirfan@yahoo.com, Ktjoher@gmail.com", 15, 30);
-      doc.text("GSTIN: 08ACEPI2786B1ZS", 15, 36);
-      doc.text("Plant Office: Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India", 15, 42);
-
-      // 3. Status Badges & Verification Seals
-      doc.setDrawColor(39, 174, 96);
-      doc.setLineWidth(0.5);
-      doc.setFillColor(240, 249, 244);
-      doc.roundedRect(15, 54, 48, 8, 4, 4, 'FD'); 
-
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(9);
-      doc.setTextColor(39, 174, 96);
-      doc.text("QC VERIFIED CERTIFICATE", 18, 59.5);
-
-      // 4. Primary Material Block Headings
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(16);
-      doc.setTextColor(107, 79, 79);
-      doc.text(activeName, 15, 74);
-
-      // 5. Secure Base64 Image Processing Integration Sequence
-      try {
-        const webStoneImgElement = document.getElementById('stone-image');
-        const secureBase64Data = getBase64Image(webStoneImgElement);
-        doc.addImage(secureBase64Data, 'JPEG', 145, 104, 45, 45);
-        
-        doc.setFont("Helvetica", "normal");
-        doc.setFontSize(7.5);
-        doc.setTextColor(119, 119, 119);
-        doc.text("Visual Batch Reference Profile", 145, 153);
-      } catch (imgError) {
-        console.log("Image processing fell back due to local browser caching constraints.", imgError);
-      }
-
-      // 6. Mechanical Property Row Metric Compilations
-      doc.setDrawColor(220, 220, 220);
-      doc.setLineWidth(0.3);
+      const configOptions = {
+        margin:       [12, 12, 12, 12],
+        filename:     standardFilename,
+        image:        { type: 'jpeg', quality: 1.0 },
+        html2canvas:  { 
+          scale: 3,             
+          useCORS: true,        
+          letterRendering: true 
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
       
-      let currentY = 82;
-      const rowHeight = 10;
-      
-      const labels = ["Compressive Strength", "Water Absorption", "Bulk Density", "Compliance Standard"];
-      const values = [activeStrength, activeAbsorption, activeDensity, activeAstm];
-      
-      doc.setFontSize(10);
-      for (let i = 0; i < 4; i++) {
-        doc.line(15, currentY + 2, 135, currentY + 2);
-        doc.setFont("Helvetica", "bold");
-        doc.setTextColor(85, 85, 85);
-        doc.text(labels[i], 17, currentY);
-        
-        if (i === 3) {
-          doc.setFont("Helvetica", "bold");
-          doc.setTextColor(39, 174, 96); 
-        } else {
-          doc.setFont("Helvetica", "normal");
-          doc.setTextColor(34, 34, 34);
-        }
-        doc.text(values[i], 72, currentY);
-        currentY += rowHeight;
-      }
-
-      // 7. Dynamic Section: Prints Advanced Technical Fields for Indian Basalt
-      const selectedStone = stoneRegistry[stoneKey];
-      if (selectedStone && selectedStone.extendedSpecs) {
-        const specs = selectedStone.extendedSpecs;
-        currentY += 4;
-        
-        doc.setFont("Helvetica", "bold");
-        doc.setFontSize(12);
-        doc.setTextColor(107, 79, 79);
-        doc.text("Chemical & Thermal Performance Profiles", 15, currentY);
-        currentY += 6;
-        
-        doc.setFontSize(9);
-        doc.setFont("Helvetica", "bold"); doc.setTextColor(90, 90, 90); doc.text("Moh's Hardness:", 17, currentY);
-        doc.setFont("Helvetica", "normal"); doc.setTextColor(34, 34, 34); doc.text(specs.hardness, 48, currentY);
-        
-        doc.setFont("Helvetica", "bold"); doc.setTextColor(90, 90, 90); doc.text("Flexural Strength:", 100, currentY);
-        doc.setFont("Helvetica", "normal"); doc.setTextColor(34, 34, 34); doc.text(specs.flexural, 132, currentY);
-        currentY += 6;
-
-        doc.setFont("Helvetica", "bold"); doc.setTextColor(90, 90, 90); doc.text("Melting Scope:", 17, currentY);
-        doc.setFont("Helvetica", "normal"); doc.setTextColor(34, 34, 34); doc.text(specs.meltingPoint, 48, currentY);
-        
-        doc.setFont("Helvetica", "bold"); doc.setTextColor(90, 90, 90); doc.text("Max Temp Service:", 100, currentY);
-        doc.setFont("Helvetica", "normal"); doc.setTextColor(34, 34, 34); doc.text(specs.maxServiceTemp, 132, currentY);
-        currentY += 10;
-
-        doc.setFont("Helvetica", "bold");
-        doc.setFontSize(11);
-        doc.setTextColor(107, 79, 79);
-        doc.text("Oxide Chemical Breakdown Table (%)", 15, currentY);
-        currentY += 6;
-
-        doc.setFontSize(8.5);
-        specs.oxides.forEach((oxide, idx) => {
-          let colX = (idx % 2 === 0) ? 17 : 100;
-          let valX = (idx % 2 === 0) ? 68 : 152;
-          
-          doc.setFont("Helvetica", "bold");
-          doc.setTextColor(100, 100, 100);
-          doc.text(oxide.name, colX, currentY);
-          
-          doc.setFont("Helvetica", "normal");
-          doc.setTextColor(34, 34, 34);
-          doc.text(oxide.value, valX, currentY);
-          
-          if (idx % 2 !== 0 || idx === specs.oxides.length - 1) {
-            currentY += 5.5; 
-          }
-        });
-      }
-
-      // 8. Prints Re-Verification Document QR Code Matrix Graphic
-      setTimeout(() => {
-        const qrCanvasElement = qrTargetDiv.querySelector('canvas');
-        if (qrCanvasElement) {
-          const qrImageDataUriString = qrCanvasElement.toDataURL("image/jpeg", 1.0);
-          doc.addImage(qrImageDataUriString, 'JPEG', 152, 54, 38, 38);
-          
-          doc.setFont("Helvetica", "normal");
-          doc.setFontSize(7.5);
-          doc.setTextColor(119, 119, 119);
-          doc.text("SCAN TO RE-VERIFY DATA", 153, 96);
-        }
-        
-        doc.save('KT_Compliance_Certificate.pdf');
-      }, 100);
+      html2pdf().set(configOptions).from(targetCanvasNode).save();
     }
   </script>
 </body>
