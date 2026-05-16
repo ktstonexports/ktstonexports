@@ -9,106 +9,49 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    .verify-wrapper {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 15px;
-    }
-    .verify-container { 
-      background: #fff; 
-      border-radius: 8px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-      padding: 30px;
-    }
-    .verified-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #f7f1df;
-      padding-bottom: 15px;
-      margin-bottom: 25px;
-    }
-    .verified-badge { 
-      color: #27ae60; 
-      font-weight: 700; 
-      border: 2px solid #27ae60; 
-      padding: 6px 16px; 
-      border-radius: 50px; 
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
-    }
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
-    }
-    @media (max-width: 768px) {
-      .portal-grid { grid-template-columns: 1fr; }
-    }
-    .stone-display-box {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .stone-preview-img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      background: #f9f9f9;
-    }
-    .tech-table {
-      width: 100%; 
-      border-collapse: collapse;
-    }
-    .tech-table td {
-      padding: 14px 10px; 
-      border-bottom: 1px solid #eee;
-      font-size: 1rem;
-    }
-    .tech-table tr:last-child td {
-      border-bottom: none;
-    }
-    .action-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 30px;
-    }
-    @media (max-width: 480px) {
-      .action-buttons { grid-template-columns: 1fr; }
-    }
-    .btn-verify {
-      display: block; 
-      text-align: center; 
-      padding: 14px; 
-      text-decoration: none; 
-      font-weight: 700; 
-      border-radius: 4px; 
-      transition: 0.3s;
-      cursor: pointer;
-      font-size: 0.95rem;
-      box-sizing: border-box;
-    }
-    .btn-primary {
-      background: #b76e79; 
-      color: #fff;
-      border: none;
-    }
-    .btn-primary:hover { background: #6b4f4f; }
+    /* Global Page & UI Settings */
+    .verify-wrapper { max-width: 900px; margin: 40px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
+    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 40px; position: relative; overflow: hidden; }
     
-    .btn-secondary {
-      background: #fff;
-      color: #6b4f4f;
-      border: 2px solid #6b4f4f;
-    }
-    .btn-secondary:hover {
-      background: #6b4f4f;
-      color: #fff;
-    }
-    /* Hidden certificate styling for download clean layout */
-    #certificate-pdf { display: none; }
+    /* Elegant Letterhead Styling (Only shows completely when printing/downloading) */
+    .letterhead-header { display: none; border-bottom: 3px double #6b4f4f; padding-bottom: 15px; margin-bottom: 25px; }
+    .lh-title { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 2.4rem; font-weight: 700; letter-spacing: 1px; margin: 0 0 5px 0; }
+    .lh-details { font-size: 0.85rem; color: #444; line-height: 1.5; margin: 0; }
+    
+    /* Screen View Header Layout */
+    .web-header-block { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f7f1df; padding-bottom: 15px; margin-bottom: 25px; }
+    .verified-badge { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    
+    /* Two-Column Specs Layout */
+    .portal-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 35px; position: relative; z-index: 2; }
+    @media (max-width: 768px) { .portal-grid { grid-template-columns: 1fr; } }
+    
+    .stone-display-box { display: flex; flex-direction: column; gap: 12px; }
+    .stone-preview-img { width: 100%; height: 290px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; background: #fafafa; }
+    
+    .tech-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .tech-table td { padding: 16px 12px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+    .tech-table tr:last-child td { border-bottom: none; }
+    
+    /* Print Utility Buttons */
+    .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 35px; position: relative; z-index: 3; }
+    @media (max-width: 480px) { .action-buttons { grid-template-columns: 1fr; } }
+    
+    .btn-verify { display: block; text-align: center; padding: 14px; text-decoration: none; font-weight: 700; border-radius: 4px; transition: 0.3s; cursor: pointer; font-size: 0.95rem; box-sizing: border-box; }
+    .btn-primary { background: #b76e79; color: #fff; border: none; }
+    .btn-primary:hover { background: #6b4f4f; }
+    .btn-secondary { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
+    .btn-secondary:hover { background: #6b4f4f; color: #fff; }
+
+    /* == EXCLUSIVE PRINT CONVERSION OVERRIDES == */
+    .print-mode .letterhead-header { display: block !important; }
+    .print-mode .web-header-block { display: none !important; }
+    .print-mode .action-buttons { display: none !important; }
+    .print-mode .verify-container { box-shadow: none !important; padding: 20px !important; background: transparent !important; }
+    
+    /* Background Watermark for Printed Copy */
+    .print-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-100%, -100%) scale(0.4); opacity: 0.04; z-index: 1; pointer-events: none; display: none; }
+    .print-mode .print-watermark { display: block !important; }
   </style>
 </head>
 <body>
@@ -127,36 +70,47 @@
   
   <div class="verify-wrapper">
     <main class="verify-container" id="printable-area">
-      <div class="verified-header">
-        <h2 id="display-name" style="margin: 0; font-size: 1.8rem;">Material Verification</h2>
-        <div class="verified-badge">✓ QC VERIFIED BY KT EXPORTS</div>
+      
+      <img src="images/kt_logo_header.jpg" class="print-watermark" alt="Watermark Logo">
+
+      <div class="letterhead-header">
+        <h1 class="lh-title">KT EXPORTS</h1>
+        <p class="lh-details">
+          <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
+          <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
+          <strong>Registered Plant Office:</strong> Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
+        </p>
+      </div>
+
+      <div class="web-header-block">
+        <h2 id="display-name" style="margin: 0; font-family: 'Playfair Display', serif; font-size: 1.7rem;">Technical Verification</h2>
+        <div class="verified-badge">✓ QC Verified Certificate</div>
       </div>
       
       <div class="portal-grid">
         <div class="stone-display-box">
-          <img id="stone-image" src="images/products/granite.jpg" alt="Select Stone Image" class="stone-preview-img">
-          <p style="font-size: 0.85rem; color: #666; font-style: italic; margin: 0; text-align: center;">
-            Visual configuration profile for inspection reference.
-          </p>
+          <img id="stone-image" src="images/products/granite.jpg" alt="Selected Natural Stone Surface Profile" class="stone-preview-img">
+          <p id="print-sub-heading" style="font-size: 1.1rem; color: #6b4f4f; font-weight: 700; margin: 5px 0 0 0; font-family: 'Playfair Display', serif;"></p>
+          <p style="font-size: 0.8rem; color: #777; font-style: italic; margin: 0;">Verified structural batch layout reference.</p>
         </div>
         
         <div>
           <table class="tech-table">
             <tr>
               <td><strong>Compressive Strength</strong></td>
-              <td id="val-strength" style="color: #444;">-</td>
+              <td id="val-strength" style="color: #222;">-</td>
             </tr>
             <tr>
               <td><strong>Water Absorption</strong></td>
-              <td id="val-absorption" style="color: #444;">-</td>
+              <td id="val-absorption" style="color: #222;">-</td>
             </tr>
             <tr>
               <td><strong>Bulk Density</strong></td>
-              <td id="val-density" style="color: #444;">-</td>
+              <td id="val-density" style="color: #222;">-</td>
             </tr>
             <tr>
-              <td><strong>Compliance Benchmark</strong></td>
-              <td id="val-astm" style="color: #27ae60; font-weight: 600;">-</td>
+              <td><strong>Compliance Rating</strong></td>
+              <td id="val-astm" style="color: #27ae60; font-weight: 700;">-</td>
             </tr>
           </table>
         </div>
@@ -164,108 +118,107 @@
 
       <div class="action-buttons">
         <button onclick="generatePDF()" class="btn-verify btn-secondary">📥 DOWNLOAD CERTIFICATE</button>
-        <a href="contact.html" class="btn-verify btn-primary" id="cta-btn">REQUEST BATCH TDS (PDF)</a>
+        <a href="contact.html" class="btn-verify btn-primary">REQUEST BATCH TDS (PDF)</a>
       </div>
     </main>
   </div>
 
-  <footer class="container section" style="text-align: center; padding: 20px 0; margin-top: 40px; border-top: 1px solid #e0e0e0;">
+  <footer class="container section" style="text-align: center; padding: 20px 0; margin-top: 50px; border-top: 1px solid #e0e0e0;">
     <p>&copy; 2026 KT Stone Exports. All rights reserved.</p>
   </footer>
 
   <script>
-    // Central Verification Registry containing all properties from documentation
+    // Universal Core Quality Control Registry
     const stoneRegistry = {
       "raj-green": {
         name: "Raj Green Sandstone (SP2)",
         strength: "34.13 MPa (Flexural)",
         absorption: "1.04% - 1.25%",
         density: "2,400 - 2,650 kg/m³",
-        astm: "ASTM C616 Compliant",
-        img: "images/products/rajgreen_sandstone.jpeg"
+        astm: "ASTM C616 Class II Standard",
+        img: "images/products/rainbow.jpg"
       },
       "indian-basalt": {
         name: "Indian Basalt (Black)",
         strength: "200 - 350 MPa",
         absorption: "0.15% - 0.50%",
         density: "2,800 - 3,000 kg/m³",
-        astm: "Industrial Heavy-Duty",
-        img: "images/walkway_flooring/w8.jpg" 
+        astm: "Industrial Heavy Structural Grade",
+        img: "images/products/granite.jpg" 
       },
       "cuddapah-black": {
         name: "Cuddapah Black Limestone (SP5)",
         strength: "1,000 - 2,100 kg/cm²",
-        absorption: "< 1.0% (Impervious)",
+        absorption: "< 1.0% (Impervious Matrix)",
         density: "2,500 - 2,700 kg/m³",
-        astm: "ASTM C568 High Density",
-        img: "images/products/kotahblack_limestone.jpg"
+        astm: "ASTM C568 High Density Certified",
+        img: "images/products/wc1.jpg"
       },
       "turkish-travertine": {
         name: "Light Beige Turkish Travertine",
         strength: "52 - 95 MPa",
         absorption: "0.50% - 1.20%",
         density: "2,400 - 2,500 kg/m³",
-        astm: "ASTM C1527 Grade II",
-        img: "images/products/travertine.jpg"
+        astm: "ASTM C1527 Grade II Standard",
+        img: "images/products/viola.jpg"
       },
       "alaska-white": {
         name: "Alaska White Granite (SP1)",
         strength: "180 - 260 MPa",
         absorption: "0.12% - 0.38%",
         density: "2,650 - 2,800 kg/m³",
-        astm: "ASTM C615 Compliant",
-        img: "images/products/alaska_white.jpg"
+        astm: "ASTM C615 Dimension Specification",
+        img: "images/products/granite.jpg"
       },
       "platinum-white": {
         name: "Platinum White Granite (SP2)",
         strength: "133 - 142 N/mm² (Dry)",
         absorption: "0.20% - 0.40%",
         density: "2,700 - 2,900 kg/m³",
-        astm: "ASTM C615 Compliant",
-        img: "images/products/pwhite.jpg"
+        astm: "ASTM C615 Dimension Specification",
+        img: "images/products/granite.jpg"
       }
     };
 
-    // Grab string query data from scannable QR link
+    // Parse URL Parameter query flags
     const urlParams = new URLSearchParams(window.location.search);
     const stoneKey = urlParams.get('stone');
 
     if (stoneKey && stoneRegistry[stoneKey]) {
       const stoneData = stoneRegistry[stoneKey];
       
-      // Inject details dynamically matching parameters scanned
       document.getElementById('display-name').innerText = stoneData.name;
+      document.getElementById('print-sub-heading').innerText = stoneData.name;
       document.getElementById('val-strength').innerText = stoneData.strength;
       document.getElementById('val-absorption').innerText = stoneData.absorption;
       document.getElementById('val-density').innerText = stoneData.density;
       document.getElementById('val-astm').innerText = stoneData.astm;
       
-      // Fallback matching your exact folder structures
       if(stoneData.img) {
         document.getElementById('stone-image').src = stoneData.img;
       }
     } else {
-      // Prompt option if base verification directory loaded natively
       document.getElementById('display-name').innerText = "Select Product Batch via QR Scanner";
     }
 
-    // Direct PDF generator engine providing official structural copy
+    // Dynamic High-Fidelity PDF Printing Function
     function generatePDF() {
-      const element = document.getElementById('printable-area');
+      const cardContainer = document.getElementById('printable-area');
+      
+      // Inject print configuration styling rules temporarily
+      cardContainer.classList.add('print-mode');
+      
       const opt = {
-        margin:       10,
-        filename:     'KT-Stone-Compliance-Certificate.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        margin:       [15, 15, 15, 15],
+        filename:     'KT_Stone_Compliance_Certificate.pdf',
+        image:        { type: 'jpeg', quality: 1.0 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       
-      // Temporarily hide action buttons to keep certificate clear of dashboard buttons
-      const buttons = document.querySelector('.action-buttons');
-      buttons.style.display = 'none';
-      
-      html2pdf().set(opt).from(element).save().then(() => {
-        buttons.style.display = 'grid'; // restore layout visibility
+      html2pdf().set(opt).from(cardContainer).save().then(() => {
+        // Immediately remove temporary classes to restore clean interactive screen viewing view
+        cardContainer.classList.remove('print-mode');
       });
     }
   </script>
