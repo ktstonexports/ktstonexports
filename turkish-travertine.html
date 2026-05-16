@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Light Beige Turkish Travertine - KT Stone Exports</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/stone-registry.js"></script>
+  <style>
+    body { font-family: "Open Sans", sans-serif; }
+    .verify-wrapper { max-width: 820px; margin: 30px auto; padding: 0 15px; }
+    .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; box-sizing: border-box; }
+    #print-document-frame { width: 100%; max-width: 595pt; margin: 0 auto; padding: 20pt; box-sizing: border-box; background: #fff; position: relative; }
+    .watermark-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 260pt; opacity: 0.04; pointer-events: none; z-index: 0; }
+    .lh-block { width: 100%; border-collapse: collapse; margin-bottom: 18pt; border-bottom: 2px solid #6b4f4f; }
+    .lh-title { font-family: "Playfair Display", serif; color: #6b4f4f; font-size: 22pt; font-weight: 700; margin: 0 0 4pt 0; }
+    .lh-info { font-size: 8.5pt; color: #333; line-height: 1.5; margin: 0; }
+    .verified-badge { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 3pt 10pt; border-radius: 50px; font-size: 8.5pt; display: inline-block; text-transform: uppercase; margin-bottom: 14pt; }
+    .main-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .col-left { width: 42%; vertical-align: top; padding-right: 16pt; }
+    .col-right { width: 58%; vertical-align: top; }
+    .stone-img { width: 100%; height: 180pt; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; }
+    .stone-name { font-family: "Playfair Display", serif; font-size: 12pt; color: #6b4f4f; font-weight: 700; margin: 8pt 0 2pt 0; }
+    .stone-sub { font-size: 7.5pt; color: #777; margin: 0 0 8pt 0; font-style: italic; }
+    .qr-section { text-align: center; margin-top: 8pt; border: 1px solid #eee; border-radius: 4px; padding: 8pt; }
+    .qr-label { font-size: 7pt; color: #888; margin: 0 0 5pt 0; text-transform: uppercase; letter-spacing: 0.3pt; }
+    #qr-img { width: 90px; height: 90px; display: block; margin: 0 auto; }
+    .qr-url-text { font-size: 6pt; color: #bbb; margin-top: 4pt; word-break: break-all; }
+    .section-label { font-size: 7.5pt; font-weight: 700; color: #6b4f4f; text-transform: uppercase; letter-spacing: 0.5pt; margin: 0 0 4pt 0; border-bottom: 1px solid #ddd; padding-bottom: 2pt; }
+    .spec-table { width: 100%; border-collapse: collapse; margin-bottom: 12pt; table-layout: fixed; }
+    .spec-table td { padding: 6pt 5pt; border-bottom: 1px solid #f0f0f0; font-size: 9pt; word-wrap: break-word; vertical-align: top; }
+    .spec-table tr:last-child td { border-bottom: none; }
+    .spec-val { color: #222; font-weight: 600; }
+    .spec-val-green { color: #27ae60; font-weight: 700; }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 22px; }
+    @media (max-width: 520px) { .btn-row { grid-template-columns: 1fr; } }
+    .btn { display: block; text-align: center; padding: 11px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 0.9rem; cursor: pointer; box-sizing: border-box; }
+    .btn-pink { background: #b76e79; color: #fff; border: none; }
+    .btn-pink:hover { background: #6b4f4f; }
+    .btn-outline { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
+    .btn-outline:hover { background: #6b4f4f; color: #fff; }
+
+    @media print {
+      header, .btn-row, footer { display: none !important; }
+      body { background: #fff !important; }
+      .verify-wrapper { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+      .verify-container { box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
+      #print-document-frame { max-width: 100% !important; padding: 10pt !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="container" style="display:flex; align-items:center; justify-content:space-between; padding:20px 15px; max-width:1200px; margin:0 auto;">
+    <img src="images/kt_logo_header.jpg" alt="KT Logo" class="site-logo">
+    <nav style="display:flex; gap:1.5rem;">
+      <a href="index.html" style="text-decoration:none; color:#6b4f4f; font-weight:700;">Home</a>
+      <a href="products.html" style="text-decoration:none; color:#6b4f4f; font-weight:700;">Products</a>
+      <a href="gallery.html" style="text-decoration:none; color:#6b4f4f; font-weight:700;">Gallery</a>
+      <a href="catalogue.html" style="text-decoration:none; color:#6b4f4f; font-weight:700;">Catalogue</a>
+      <a href="verify.html" style="text-decoration:none; color:#b76e79; font-weight:700;">Verify Stone</a>
+      <a href="contact.html" style="text-decoration:none; color:#6b4f4f; font-weight:700;">Contact</a>
+    </nav>
+  </header>
+
+  <div class="verify-wrapper">
+    <div class="verify-container">
+      <div id="print-document-frame">
+        <img src="images/kt_logo_header.jpg" class="watermark-bg" alt="">
+        <table class="lh-block">
+          <tr>
+            <td style="padding-bottom:10pt;">
+              <h1 class="lh-title">KT EXPORTS</h1>
+              <p class="lh-info">
+                <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp;
+                <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
+                <strong>GSTIN:</strong> 08ACEPI2786B1ZS &nbsp;|&nbsp;
+                <strong>Office:</strong> Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
+              </p>
+            </td>
+          </tr>
+        </table>
+        <div class="verified-badge">&#10003; QC Verified Certificate</div>
+        <table class="main-table">
+          <tr>
+            <td class="col-left">
+              <img id="stone-img" src="" alt="" class="stone-img" onerror="this.style.display='none'">
+              <div id="stone-name" class="stone-name"></div>
+              <p class="stone-sub">Verified batch reference sample.</p>
+              <div class="qr-section">
+                <p class="qr-label">Scan to verify online</p>
+                <img id="qr-img" src="" alt="QR Code">
+                <p class="qr-url-text" id="qr-url-text"></p>
+              </div>
+            </td>
+            <td class="col-right">
+              <p class="section-label">Technical Specifications</p>
+              <table class="spec-table">
+                <tr><td style="width:50%;"><strong>Compressive Strength</strong></td><td id="v-strength" class="spec-val"></td></tr>
+                <tr><td><strong>Water Absorption</strong></td><td id="v-absorption" class="spec-val"></td></tr>
+                <tr><td><strong>Bulk Density</strong></td><td id="v-density" class="spec-val"></td></tr>
+                <tr><td><strong>Hardness (Mohs)</strong></td><td id="v-hardness" class="spec-val"></td></tr>
+                <tr><td><strong>Flexural Strength</strong></td><td id="v-flexural" class="spec-val"></td></tr>
+                <tr><td><strong>Composition</strong></td><td id="v-composition" class="spec-val"></td></tr>
+                <tr><td><strong>Finish Options</strong></td><td id="v-finish" class="spec-val"></td></tr>
+                <tr><td><strong>Compliance Standard</strong></td><td id="v-astm" class="spec-val-green"></td></tr>
+              </table>
+              <p class="section-label">Certificate Details</p>
+              <table class="spec-table">
+                <tr><td style="width:50%;"><strong>Issued By</strong></td><td class="spec-val">KT Stone Exports</td></tr>
+                <tr><td><strong>Date</strong></td><td id="v-date" class="spec-val"></td></tr>
+                <tr><td><strong>Status</strong></td><td class="spec-val-green">Active / Verified</td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <button id="dl-btn" onclick="generatePDF()" class="btn btn-outline">Download Certificate</button>
+        <a href="verify.html" class="btn btn-outline">Back to All Stones</a>
+        <a href="contact.html" class="btn btn-pink">Request Batch TDS</a>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align:center; padding:20px 0; margin-top:40px; border-top:1px solid #e0e0e0;">
+    <p>&copy; 2026 KT Stone Exports. All rights reserved.</p>
+  </footer>
+
+  <script>
+    var STONE_KEY = "turkish-travertine";
+    var LIVE_URL  = "https://ktstonexports.com/turkish-travertine.html";
+
+    var s = stoneRegistry[STONE_KEY];
+    document.title = s.name + " - KT Stone Exports";
+    document.getElementById("stone-img").src         = s.img;
+    document.getElementById("stone-img").alt         = s.name;
+    document.getElementById("stone-name").innerText  = s.name;
+    document.getElementById("v-strength").innerText  = s.strength;
+    document.getElementById("v-absorption").innerText= s.absorption;
+    document.getElementById("v-density").innerText   = s.density;
+    document.getElementById("v-hardness").innerText  = s.hardness;
+    document.getElementById("v-flexural").innerText  = s.flexural;
+    document.getElementById("v-composition").innerText = s.composition;
+    document.getElementById("v-finish").innerText    = s.finish;
+    document.getElementById("v-astm").innerText      = s.astm;
+    document.getElementById("v-date").innerText      = new Date().toLocaleDateString("en-GB", {day:"2-digit", month:"long", year:"numeric"});
+    document.getElementById("qr-url-text").innerText = LIVE_URL;
+
+    // Render QR into a hidden div, then copy the canvas as a data-URL into <img id="qr-img">
+    // This is necessary because html2canvas cannot capture canvas elements reliably
+    var _tmp = document.createElement("div");
+    _tmp.style.display = "none";
+    document.body.appendChild(_tmp);
+    new QRCode(_tmp, {
+      text: LIVE_URL, width: 120, height: 120,
+      colorDark: "#6b4f4f", colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    setTimeout(function() {
+      var c = _tmp.querySelector("canvas");
+      if (c) { document.getElementById("qr-img").src = c.toDataURL("image/png"); }
+    }, 300);
+
+    function generatePDF() {
+      window.print();
+    }
+  </script>
+</body>
+</html>

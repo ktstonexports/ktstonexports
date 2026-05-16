@@ -5,49 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Material Verification Portal – KT Stone Exports</title>
   <link rel="stylesheet" href="css/style.css">
-  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
-    /* Main interactive responsive window container setup */
-    .verify-wrapper { max-width: 800px; margin: 30px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
+    .verify-wrapper { max-width: 820px; margin: 30px auto; padding: 0 15px; font-family: 'Open Sans', sans-serif; }
     .verify-container { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; box-sizing: border-box; }
-    
-    /* Dedicated Print Frame Layout (Forces 595pt absolute A4 block width to fix clipping) */
-    #print-document-frame {
-      width: 100%;
-      max-width: 595pt; 
-      margin: 0 auto;
-      padding: 20pt;
-      box-sizing: border-box;
-      background: #ffffff;
-      position: relative;
-    }
 
-    /* Embedded Document Header Letterhead Layout */
-    .lh-table-block { width: 100%; border-collapse: collapse; margin-bottom: 25pt; border-bottom: 2px solid #6b4f4f; }
-    .lh-title-text { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 26pt; font-weight: 700; margin: 0 0 5pt 0; line-height: 1.1; }
-    .lh-desc-text { font-size: 9.5pt; color: #333333; line-height: 1.4; margin: 0; font-family: 'Open Sans', sans-serif; }
-    
-    /* Standard structural block components */
+    /* ── BROWSE MODE: all-stones grid ── */
+    .stones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 10px; }
+    @media (max-width: 600px) { .stones-grid { grid-template-columns: 1fr; } }
+    .stone-card { border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+    .stone-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .stone-card-body { padding: 15px; }
+    .stone-card-title { font-family: 'Playfair Display', serif; font-size: 13pt; color: #6b4f4f; font-weight: 700; margin: 0 0 10px 0; }
+    .stone-spec-row { display: flex; justify-content: space-between; font-size: 9pt; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+    .stone-spec-row:last-child { border-bottom: none; }
+    .stone-spec-label { color: #555; font-weight: 600; }
+    .stone-spec-value { color: #222; text-align: right; max-width: 55%; }
+    .stone-astm { color: #27ae60; font-weight: 700; }
+    .page-section-title { font-family: 'Playfair Display', serif; font-size: 18pt; color: #6b4f4f; font-weight: 700; margin: 0 0 5px 0; }
+    .page-section-sub { font-size: 9.5pt; color: #666; margin: 0 0 20px 0; }
+
+    /* ── QR CERTIFICATE MODE: single stone ── */
+    #print-document-frame { width: 100%; max-width: 595pt; margin: 0 auto; padding: 20pt; box-sizing: border-box; background: #ffffff; position: relative; }
+    .lh-table-block { width: 100%; border-collapse: collapse; margin-bottom: 20pt; border-bottom: 2px solid #6b4f4f; }
+    .lh-title-text { font-family: 'Playfair Display', serif; color: #6b4f4f; font-size: 24pt; font-weight: 700; margin: 0 0 5pt 0; line-height: 1.1; }
+    .lh-desc-text { font-size: 9pt; color: #333; line-height: 1.5; margin: 0; }
     .verified-badge-stamp { color: #27ae60; font-weight: 700; border: 2px solid #27ae60; padding: 4pt 12pt; border-radius: 50px; font-size: 9pt; display: inline-block; text-transform: uppercase; margin-bottom: 15pt; }
-    
-    /* Strict layout alignment engine for data results */
     .content-layout-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    .image-column-box { width: 45%; vertical-align: top; padding-right: 20pt; }
-    .specs-column-box { width: 55%; vertical-align: top; }
-    
-    .stone-photo-render { width: 100%; height: 210pt; object-fit: cover; border-radius: 4px; border: 1px solid #dddddd; display: block; }
-    .stone-label-caption { font-family: 'Playfair Display', serif; font-size: 14pt; color: #6b4f4f; font-weight: 700; margin: 8pt 0 2pt 0; }
-    .stone-sub-caption { font-size: 8.5pt; color: #666666; margin: 0; font-style: italic; }
-    
-    /* Core Technical Spec Metric Layout Rows */
+    .image-column-box { width: 42%; vertical-align: top; padding-right: 18pt; }
+    .specs-column-box { width: 58%; vertical-align: top; }
+    .stone-photo-render { width: 100%; height: 190pt; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; }
+    .stone-label-caption { font-family: 'Playfair Display', serif; font-size: 13pt; color: #6b4f4f; font-weight: 700; margin: 8pt 0 2pt 0; }
+    .stone-sub-caption { font-size: 8pt; color: #666; margin: 0; font-style: italic; }
     .data-matrix-table { width: 100%; border-collapse: collapse; margin-top: 5pt; table-layout: fixed; }
-    .data-matrix-table td { padding: 12pt 8pt; border-bottom: 1px solid #eeeeee; font-size: 10pt; word-wrap: break-word; }
+    .data-matrix-table td { padding: 8pt 6pt; border-bottom: 1px solid #eee; font-size: 9.5pt; word-wrap: break-word; vertical-align: top; }
     .data-matrix-table tr:last-child td { border-bottom: none; }
-    
-    /* Website Interactive Command Buttons */
-    .action-row-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; }
+    .watermark-overlay-bg { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 260pt; height: auto; opacity: 0.04; pointer-events: none; z-index: 1; }
+
+    /* Buttons */
+    .action-row-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
     @media (max-width: 480px) { .action-row-buttons { grid-template-columns: 1fr; } }
     .btn-action-trigger { display: block; text-align: center; padding: 13px; text-decoration: none; font-weight: 700; border-radius: 4px; font-size: 0.95rem; cursor: pointer; box-sizing: border-box; }
     .btn-primary-accent { background: #b76e79; color: #fff; border: none; }
@@ -55,8 +52,8 @@
     .btn-secondary-border { background: #fff; color: #6b4f4f; border: 2px solid #6b4f4f; }
     .btn-secondary-border:hover { background: #6b4f4f; color: #fff; }
 
-    /* Faded Watermark Backdrop Background Overlay */
-    .watermark-overlay-bg { position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%); width: 280pt; height: auto; opacity: 0.04; pointer-events: none; z-index: 1; }
+    /* Section header below image in certificate */
+    .cert-section-label { font-size: 8pt; font-weight: 700; color: #6b4f4f; text-transform: uppercase; letter-spacing: 0.5pt; margin: 12pt 0 4pt 0; border-bottom: 1px solid #ddd; padding-bottom: 3pt; }
   </style>
 </head>
 <body>
@@ -72,63 +69,117 @@
       <a href="contact.html" style="text-decoration: none; color: #6b4f4f; font-weight: 700;">Contact</a>
     </nav>
   </header>
-  
+
   <div class="verify-wrapper">
     <div class="verify-container">
-      
-      <div id="print-document-frame">
-        
-        <img src="images/kt_logo_header.jpg" class="watermark-overlay-bg" alt="Watermark Background Graphic">
 
-        <table class="lh-table-block">
-          <tr>
-            <td style="padding-bottom: 12pt;">
-              <h1 class="lh-title-text">KT EXPORTS</h1>
-              <p class="lh-desc-text">
-                <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp; <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
-                <strong>GSTIN:</strong> 08ACEPI2786B1ZS<br>
-                <strong>Main Road Plant Office:</strong> Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
-              </p>
-            </td>
-          </tr>
-        </table>
+      <!-- BROWSE MODE: shown when no ?stone= in URL -->
+      <div id="browse-mode">
+        <h2 class="page-section-title">Material Verification Portal</h2>
+        <p class="page-section-sub">All QC verified stones with compliance specifications</p>
+        <div class="verified-badge-stamp">✓ QC Verified Catalogue</div>
+        <div id="stones-grid" class="stones-grid"></div>
+        <div class="action-row-buttons" style="margin-top: 30px;">
+          <a href="contact.html" class="btn-action-trigger btn-primary-accent">REQUEST BATCH TDS (PDF)</a>
+        </div>
+      </div>
 
-        <div class="verified-badge-stamp">✓ QC Verified Certificate</div>
-        
-        <table class="content-layout-table">
-          <tr>
-            <td class="image-column-box">
-              <img id="stone-image" src="images/products/granite.jpg" alt="Natural Stone Inspection Batch Layout Profile" class="stone-photo-render">
-              <div id="lbl-stone-title" class="stone-label-caption">Natural Stone Spec Block</div>
-              <p class="stone-sub-caption">Verified batch reference sample.</p>
-            </td>
-            
-            <td class="specs-column-box">
-              <table class="data-matrix-table">
-                <tr>
-                  <td style="width: 50%;"><strong>Compressive Strength</strong></td>
-                  <td id="val-strength" style="color: #222; font-weight: 600;">-</td>
-                </tr>
-                <tr>
-                  <td><strong>Water Absorption</strong></td>
-                  <td id="val-absorption" style="color: #222; font-weight: 600;">-</td>
-                </tr>
-                <tr>
-                  <td><strong>Bulk Density</strong></td>
-                  <td id="val-density" style="color: #222; font-weight: 600;">-</td>
-                </tr>
-                <tr>
-                  <td><strong>Compliance Standard</strong></td>
-                  <td id="val-astm" style="color: #27ae60; font-weight: 700;">-</td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
+      <!-- QR CERTIFICATE MODE: shown when ?stone= is in URL -->
+      <div id="qr-mode" style="display:none;">
+        <div id="print-document-frame">
+          <img src="images/kt_logo_header.jpg" class="watermark-overlay-bg" alt="">
 
-      </div> <div class="action-row-buttons">
-        <button onclick="generatePDF()" class="btn-action-trigger btn-secondary-border">📥 DOWNLOAD CERTIFICATE</button>
-        <a href="contact.html" class="btn-action-trigger btn-primary-accent">REQUEST BATCH TDS (PDF)</a>
+          <!-- Letterhead -->
+          <table class="lh-table-block">
+            <tr>
+              <td style="padding-bottom: 12pt;">
+                <h1 class="lh-title-text">KT EXPORTS</h1>
+                <p class="lh-desc-text">
+                  <strong>Mobiles:</strong> +91 9828287159, +91 8003669110 &nbsp;|&nbsp;
+                  <strong>Emails:</strong> Ktirfan@yahoo.com, Ktjoher@gmail.com<br>
+                  <strong>GSTIN:</strong> 08ACEPI2786B1ZS &nbsp;|&nbsp;
+                  <strong>Office:</strong> Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <div class="verified-badge-stamp">✓ QC Verified Certificate</div>
+
+          <!-- Stone image + specs side by side -->
+          <table class="content-layout-table">
+            <tr>
+              <td class="image-column-box">
+                <img id="cert-img" src="" alt="" class="stone-photo-render" onerror="this.style.display='none'">
+                <div id="cert-name" class="stone-label-caption"></div>
+                <p class="stone-sub-caption">Verified batch reference sample.</p>
+
+                <p class="cert-section-label">Performance</p>
+                <table class="data-matrix-table">
+                  <tr>
+                    <td style="width:50%;"><strong>Hardness</strong></td>
+                    <td id="cert-hardness" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Flexural Strength</strong></td>
+                    <td id="cert-flexural" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Finish Options</strong></td>
+                    <td id="cert-finish" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                </table>
+              </td>
+
+              <td class="specs-column-box">
+                <p class="cert-section-label">Technical Specifications</p>
+                <table class="data-matrix-table">
+                  <tr>
+                    <td style="width:50%;"><strong>Compressive Strength</strong></td>
+                    <td id="cert-strength" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Water Absorption</strong></td>
+                    <td id="cert-absorption" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Bulk Density</strong></td>
+                    <td id="cert-density" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Compliance Standard</strong></td>
+                    <td id="cert-astm" style="color:#27ae60; font-weight:700;">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Composition</strong></td>
+                    <td id="cert-composition" style="color:#222; font-weight:600;">—</td>
+                  </tr>
+                </table>
+
+                <p class="cert-section-label" style="margin-top:14pt;">Certificate Info</p>
+                <table class="data-matrix-table">
+                  <tr>
+                    <td style="width:50%;"><strong>Issued By</strong></td>
+                    <td style="color:#222; font-weight:600;">KT Stone Exports</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Date</strong></td>
+                    <td id="cert-date" style="color:#222; font-weight:600;"></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Status</strong></td>
+                    <td style="color:#27ae60; font-weight:700;">Active / Verified</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="action-row-buttons">
+          <button onclick="generatePDF()" class="btn-action-trigger btn-secondary-border">📥 Download Certificate</button>
+          <a href="contact.html" class="btn-action-trigger btn-primary-accent">Request Batch TDS</a>
+        </div>
       </div>
 
     </div>
@@ -139,97 +190,153 @@
   </footer>
 
   <script>
-    // System Master Reference Quality Directory Registry Matrix 
     const stoneRegistry = {
       "raj-green": {
-        name: "Raj Green Sandstone (SP2)",
+        name: "Raj Green Indian Sandstone (SP2)",
         strength: "34.13 MPa (Flexural)",
-        absorption: "1.04% - 1.25%",
-        density: "2,400 - 2,650 kg/m³",
+        absorption: "1.04% – 1.25%",
+        density: "2,400 – 2,650 kg/m³",
         astm: "ASTM C616 Class II Standard",
+        hardness: "—",
+        flexural: "34.13 MPa",
+        finish: "Riven, Sawn & Honed",
+        composition: "Quartz & feldspar, siliceous binding",
         img: "images/products/rajgreen_sandstone.jpeg"
       },
       "indian-basalt": {
         name: "Indian Basalt (Black)",
-        strength: "200 - 350 MPa",
-        absorption: "0.15% - 0.50%",
-        density: "2,800 - 3,000 kg/m³",
+        strength: "50 – 100 MPa (up to 265 MPa)",
+        absorption: "< 0.3%",
+        density: "2,700 – 2,950 kg/m³",
         astm: "Industrial Heavy Structural Grade",
-        img: "images/walkways_flooring/wc8.jpg" 
+        hardness: "7 – 8 (Mohs)",
+        flexural: "15 – 30 MPa",
+        finish: "Honed, Flamed, Polished, Brushed",
+        composition: "SiO₂ 45–52%, Al₂O₃ 13–15.5%, volcanic basalt",
+        img: "images/walkways_flooring/w8.jpg"
       },
       "cuddapah-black": {
-        name: "Cuddapah Black Limestone (SP5)",
-        strength: "1,000 - 2,100 kg/cm²",
-        absorption: "< 1.0% (Impervious Matrix)",
-        density: "2,500 - 2,700 kg/m³",
+        name: "Kotah Black Limestone (SP5)",
+        strength: "1,000 – 2,100 kg/cm²",
+        absorption: "< 1.0% (Impervious)",
+        density: "2,500 – 2,700 kg/m³",
         astm: "ASTM C568 High Density Certified",
+        hardness: "3 – 4 (Mohs)",
+        flexural: "—",
+        finish: "Riven, Honed, Polished, Tumbled, Sandblasted, Brushed",
+        composition: "Calcite (CaO 38–42%, SiO₂ 20–25%)",
         img: "images/products/kotahblack_limestone.jpg"
       },
       "turkish-travertine": {
         name: "Light Beige Turkish Travertine",
-        strength: "52 - 95 MPa",
-        absorption: "0.50% - 1.20%",
-        density: "2,400 - 2,500 kg/m³",
+        strength: "40 – 65 MPa",
+        absorption: "4.0% – 4.7%",
+        density: "2,100 – 2,600 kg/m³",
         astm: "ASTM C1527 Grade II Standard",
-        img: "images/products/travertine.jpg"
+        hardness: "3 – 4 (Mohs)",
+        flexural: "10 – 15 MPa",
+        finish: "Honed, Polished, Tumbled, Brushed (filled & sealed)",
+        composition: "Calcite — micritic limestone (calcium carbonate)",
+        img: "images/products/travertine.jpeg"
       },
       "alaska-white": {
         name: "Alaska White Granite (SP1)",
-        strength: "180 - 260 MPa",
-        absorption: "0.12% - 0.38%",
-        density: "2,650 - 2,800 kg/m³",
+        strength: "180 – 260 MPa",
+        absorption: "0.12% – 0.38%",
+        density: "2,650 – 2,800 kg/m³",
         astm: "ASTM C615 Dimension Specification",
+        hardness: "6 – 7 (Mohs)",
+        flexural: "15 – 25 MPa",
+        finish: "Polished, Honed, Flamed, Brushed",
+        composition: "Feldspar, quartz, biotite mica",
         img: "images/products/alaska_white.jpg"
       },
       "platinum-white": {
         name: "Platinum White Granite (SP2)",
-        strength: "133 - 142 N/mm² (Dry)",
-        absorption: "0.20% - 0.40%",
-        density: "2,700 - 2,900 kg/m³",
+        strength: "133 – 142 N/mm² (Dry)",
+        absorption: "0.20% – 0.40%",
+        density: "2,700 – 2,900 kg/m³",
         astm: "ASTM C615 Dimension Specification",
-        img: "images/products/pwhite.jpg"
+        hardness: "6 – 7 (Mohs)",
+        flexural: "160 – 190 kg/cm²",
+        finish: "Polished, Honed, Leathered, Flamed, Brushed",
+        composition: "White feldspar, grey quartz, dark mica",
+        img: "images/products/pwhite.jpeg"
       }
     };
 
-    // Grab string parameter details flag from link query tracking strings
     const urlParams = new URLSearchParams(window.location.search);
     const stoneKey = urlParams.get('stone');
 
     if (stoneKey && stoneRegistry[stoneKey]) {
-      const stoneData = stoneRegistry[stoneKey];
-      
-      document.getElementById('lbl-stone-title').innerText = stoneData.name;
-      document.getElementById('val-strength').innerText = stoneData.strength;
-      document.getElementById('val-absorption').innerText = stoneData.absorption;
-      document.getElementById('val-density').innerText = stoneData.density;
-      document.getElementById('val-astm').innerText = stoneData.astm;
-      
-      if(stoneData.img) {
-        document.getElementById('stone-image').src = stoneData.img;
-      }
+      // QR CERTIFICATE MODE
+      document.getElementById('browse-mode').style.display = 'none';
+      document.getElementById('qr-mode').style.display = 'block';
+
+      const s = stoneRegistry[stoneKey];
+      document.title = s.name + ' – Verified Certificate';
+      document.getElementById('cert-img').src = s.img;
+      document.getElementById('cert-img').alt = s.name;
+      document.getElementById('cert-name').innerText = s.name;
+      document.getElementById('cert-strength').innerText = s.strength;
+      document.getElementById('cert-absorption').innerText = s.absorption;
+      document.getElementById('cert-density').innerText = s.density;
+      document.getElementById('cert-astm').innerText = s.astm;
+      document.getElementById('cert-hardness').innerText = s.hardness;
+      document.getElementById('cert-flexural').innerText = s.flexural;
+      document.getElementById('cert-finish').innerText = s.finish;
+      document.getElementById('cert-composition').innerText = s.composition;
+      document.getElementById('cert-date').innerText = new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' });
+
     } else {
-      document.getElementById('lbl-stone-title').innerText = "Select Product via QR Code";
+      // BROWSE MODE — build all-stones grid
+      const grid = document.getElementById('stones-grid');
+      for (const key in stoneRegistry) {
+        const s = stoneRegistry[key];
+        grid.innerHTML += `
+          <a href="${key}.html" style="text-decoration:none;">
+            <div class="stone-card" style="cursor:pointer; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.07)'">
+              <img src="${s.img}" alt="${s.name}" onerror="this.style.display='none'">
+              <div class="stone-card-body">
+                <div class="stone-card-title">${s.name}</div>
+                <div class="stone-spec-row">
+                  <span class="stone-spec-label">Compressive Strength</span>
+                  <span class="stone-spec-value">${s.strength}</span>
+                </div>
+                <div class="stone-spec-row">
+                  <span class="stone-spec-label">Water Absorption</span>
+                  <span class="stone-spec-value">${s.absorption}</span>
+                </div>
+                <div class="stone-spec-row">
+                  <span class="stone-spec-label">Bulk Density</span>
+                  <span class="stone-spec-value">${s.density}</span>
+                </div>
+                <div class="stone-spec-row">
+                  <span class="stone-spec-label">Hardness (Mohs)</span>
+                  <span class="stone-spec-value">${s.hardness}</span>
+                </div>
+                <div class="stone-spec-row">
+                  <span class="stone-spec-label">Compliance Standard</span>
+                  <span class="stone-spec-value stone-astm">${s.astm}</span>
+                </div>
+                <div style="margin-top:10px; text-align:right; font-size:8.5pt; color:#b76e79; font-weight:700;">View Certificate →</div>
+              </div>
+            </div>
+          </a>
+        `;
+      }
     }
 
-    // High-Fidelity PDF Canvas Compilation Printing Configuration Function Block
     function generatePDF() {
-      const printTargetElement = document.getElementById('print-document-frame');
-      
+      const el = document.getElementById('print-document-frame');
       const opt = {
-        margin:       [10, 10, 10, 10],
-        filename:     'KT_Stone_Compliance_Certificate.pdf',
-        image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { 
-          scale: 3,             // Drastically improves text rendering resolution
-          useCORS: true,        // Prevents images from blocking across canvas generations
-          scrollX: 0, 
-          scrollY: 0 
-        },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin: [10, 10, 10, 10],
+        filename: 'KT_Stone_Certificate.pdf',
+        image: { type: 'jpeg', quality: 1.0 },
+        html2canvas: { scale: 3, useCORS: true, scrollX: 0, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
-      
-      // Execute capture stream cleanly
-      html2pdf().set(opt).from(printTargetElement).save();
+      html2pdf().set(opt).from(el).save();
     }
   </script>
 </body>

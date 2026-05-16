@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stone QR Codes – KT Stone Exports</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    body { font-family: 'Open Sans', sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+    h1 { text-align: center; color: #6b4f4f; font-size: 22px; margin-bottom: 5px; }
+    .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 25px; }
+
+    .print-btn { display: block; margin: 0 auto 30px auto; padding: 12px 30px; background: #b76e79; color: #fff; border: none; border-radius: 5px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .print-btn:hover { background: #6b4f4f; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
+    @media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .qr-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    .qr-card .stone-name { font-weight: 700; color: #6b4f4f; font-size: 13px; margin-bottom: 12px; min-height: 36px; display: flex; align-items: center; justify-content: center; }
+    .qr-card .qr-box { margin: 0 auto 12px auto; display: inline-block; }
+    .qr-card .qr-url { font-size: 8px; color: #999; word-break: break-all; }
+
+    @media print {
+      body { background: #fff; padding: 10px; }
+      .print-btn, .subtitle { display: none; }
+      h1 { margin-bottom: 15px; }
+      .grid { gap: 15px; }
+      .qr-card { break-inside: avoid; border: 1px solid #ccc; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>KT Stone Exports – Product QR Codes</h1>
+  <p class="subtitle">Print and attach each QR code to the corresponding stone sample or packaging.</p>
+
+  <button class="print-btn" onclick="window.print()">🖨️ Print All QR Codes</button>
+
+  <div class="grid" id="qr-grid"></div>
+
+  <script>
+    const BASE_URL = 'https://ktstonexports.com/';
+
+    const stones = [
+      { key: 'raj-green',          name: 'Raj Green Indian Sandstone (SP2)' },
+      { key: 'indian-basalt',       name: 'Indian Basalt (Black)' },
+      { key: 'cuddapah-black',      name: 'Kotah Black Limestone (SP5)' },
+      { key: 'turkish-travertine',  name: 'Light Beige Turkish Travertine' },
+      { key: 'alaska-white',        name: 'Alaska White Granite (SP1)' },
+      { key: 'platinum-white',      name: 'Platinum White Granite (SP2)' }
+    ];
+
+    const grid = document.getElementById('qr-grid');
+
+    stones.forEach(function(stone) {
+      const url = BASE_URL + stone.key + '.html';
+
+      // Build card HTML
+      const card = document.createElement('div');
+      card.className = 'qr-card';
+      card.innerHTML = `
+        <div class="stone-name">${stone.name}</div>
+        <div class="qr-box" id="qr-${stone.key}"></div>
+        <div class="qr-url">${url}</div>
+      `;
+      grid.appendChild(card);
+
+      // Generate QR code into the div
+      new QRCode(document.getElementById('qr-' + stone.key), {
+        text: url,
+        width: 140,
+        height: 140,
+        colorDark: '#6b4f4f',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    });
+  </script>
+</body>
+</html>
