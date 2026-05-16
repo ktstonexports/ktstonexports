@@ -81,11 +81,12 @@
 
       <div class="badge-row">
         <div class="status-stamp">✓ QC Verified Certificate</div>
-        <div id="hidden-qr-render"></div> </div>
+        <div id="hidden-qr-render"></div>
+      </div>
 
       <div class="main-grid">
         <div>
-          <img id="stone-image" src="" alt="Selected Stone Batch Profile Picture" class="stone-img-frame" crossorigin="anonymous">
+          <img id="stone-image" src="images/products/granite.jpg" alt="Selected Stone Batch Profile Picture" class="stone-img-frame" crossorigin="anonymous">
           <div id="lbl-stone-title" class="stone-title">Natural Stone Batch</div>
           <p style="font-size: 12px; color: #666; font-style: italic; margin: 0;">Verified structural testing asset profile reference.</p>
         </div>
@@ -277,7 +278,7 @@
         absorption: "< 1.0% (Low Impervious Layer)",
         density: "2,500 - 2,700 kg/m³ (2.5 - 2.7 g/cm³)",
         astm: "ASTM C568 Limestone Class III Standard",
-        img: "images/products/kotahblack_limestone.jpg",
+        img: "images/products/kotahblack_limestone.jpeg", // FIXED: Updated extension to .jpeg
         panelId: "ext-cuddapah-black"
       },
       "turkish-travertine": {
@@ -286,7 +287,7 @@
         absorption: "4.0% - 4.7% by weight",
         density: "2,100 - 2,600 kg/m³ (Quarry Dependent)",
         astm: "ASTM C1527 Travertine Specification",
-        img: "images/products/travertine.jpg",
+        img: "images/products/travertine.jpeg", // FIXED: Updated extension to .jpeg
         panelId: "ext-turkish-travertine"
       },
       "alaska-white": {
@@ -304,11 +305,12 @@
         absorption: "0.20% - 0.40% (Low Void Matrix)",
         density: "2.7 - 2.9 g/cm³",
         astm: "ASTM C615 Granite Core Certified",
-        img: "images/products/pwhite.jpg",
+        img: "images/products/pwhite.jpeg", // FIXED: Updated extension to .jpeg
         panelId: "ext-platinum-white"
       }
     };
 
+    // Global layout tracking state variables
     const urlParams = new URLSearchParams(window.location.search);
     const stoneKey = urlParams.get('stone');
     let currentValidationUrl = window.location.href;
@@ -318,96 +320,90 @@
     let activeAbsorption = "-";
     let activeDensity = "-";
     let activeAstm = "-";
-    let loadedBase64Image = null;
 
-    // MANDATORY AUDIT 1 VERIFIED: Write screen text immediately to avoid loading delays
-    if (stoneKey && stoneRegistry[stoneKey]) {
-      const stoneData = stoneRegistry[stoneKey];
-      
-      activeName = stoneData.name;
-      activeStrength = stoneData.strength;
-      activeAbsorption = stoneData.absorption;
-      activeDensity = stoneData.density;
-      activeAstm = stoneData.astm;
-      
-      document.getElementById('lbl-stone-title').innerText = activeName;
-      document.getElementById('val-strength').innerText = activeStrength;
-      document.getElementById('val-absorption').innerText = activeAbsorption;
-      document.getElementById('val-density').innerText = activeDensity;
-      document.getElementById('val-astm').innerText = activeAstm;
-      
-      const imgEl = document.getElementById('stone-image');
-      imgEl.src = stoneData.img;
+    // MASTER INITIALIZATION HOOK: Forces everything to fire at one strict operational time index
+    window.onload = function() {
+      if (stoneKey && stoneRegistry[stoneKey]) {
+        const stoneData = stoneRegistry[stoneKey];
+        
+        activeName = stoneData.name;
+        activeStrength = stoneData.strength;
+        activeAbsorption = stoneData.absorption;
+        activeDensity = stoneData.density;
+        activeAstm = stoneData.astm;
+        
+        // 1. Instantly map all strings onto active screen text boxes
+        document.getElementById('lbl-stone-title').innerText = activeName;
+        document.getElementById('val-strength').innerText = activeStrength;
+        document.getElementById('val-absorption').innerText = activeAbsorption;
+        document.getElementById('val-density').innerText = activeDensity;
+        document.getElementById('val-astm').innerText = activeAstm;
+        
+        // 2. Set target image source pathing safely
+        const imgEl = document.getElementById('stone-image');
+        imgEl.src = stoneData.img;
 
-      if (stoneData.panelId) {
-        document.getElementById(stoneData.panelId).style.display = "block";
-      }
-
-      // ASYNC PRELOADER VECTOR ENGINE: Secure, cross-browser, layout-isolated image converter
-      function runInternalPreload() {
-        if (imgEl.complete && imgEl.naturalWidth !== 0) {
-          try {
-            const canvas = document.createElement("canvas");
-            canvas.width = imgEl.naturalWidth;
-            canvas.height = imgEl.naturalHeight;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(imgEl, 0, 0);
-            loadedBase64Image = canvas.toDataURL("image/jpeg", 0.95);
-          } catch (e) {
-            console.log("Memory mapping buffer optimization applied.");
-          }
-        } else {
-          setTimeout(runInternalPreload, 250); 
+        // 3. Unhide matching advanced web elements panel card
+        if (stoneData.panelId) {
+          document.getElementById(stoneData.panelId).style.display = "block";
         }
+      } else {
+        document.getElementById('lbl-stone-title').innerText = "Select Product via QR Code";
+        currentValidationUrl = "https://ktstonexports.com/verify.html";
       }
-      
-      if (imgEl.complete) { runInternalPreload(); } else { imgEl.onload = runInternalPreload; }
-    } else {
-      document.getElementById('lbl-stone-title').innerText = "Select Product via QR Code";
-      currentValidationUrl = "https://ktstonexports.com/verify.html";
-    }
 
-    // MANDATORY AUDIT 3 VERIFIED: Active dynamic QR mapping targeting current global view state
-    const qrTargetDiv = document.getElementById("hidden-qr-render");
-    new QRCode(qrTargetDiv, {
-      text: currentValidationUrl,
-      width: 150,
-      height: 150,
-      correctLevel: QRCode.CorrectLevel.H
-    });
+      // 4. Generate the live interactive barcode tracking data matrix
+      const qrTargetDiv = document.getElementById("hidden-qr-render");
+      new QRCode(qrTargetDiv, {
+        text: currentValidationUrl,
+        width: 150,
+        height: 150,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    };
 
-    // MANDATORY AUDIT 2 VERIFIED: Pure vector coordinate compilation engine (Crisp lines, no overlaps)
+    // Vector A4 Drawing Compiler Engine - Immune to Cross-Origin whiteout bugs
     function generateOfficialPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
       
-      // Structural layout framing markers
+      // Structural borders layouts
       doc.setDrawColor(107, 79, 79); doc.setLineWidth(1); doc.rect(10, 10, 190, 277); 
       doc.line(15, 48, 195, 48); 
 
-      // Letterhead company metadata injection strings
+      // Letterhead Text strings vectors tracking points
       doc.setFont("Helvetica", "bold"); doc.setFontSize(26); doc.setTextColor(107, 79, 79); doc.text("KT EXPORTS", 15, 23);
       doc.setFont("Helvetica", "normal"); doc.setFontSize(9.5); doc.setTextColor(51, 51, 51);
       doc.text("Mobiles: +91 9828287159, +91 8003669110   |   Emails: Ktirfan@yahoo.com, Ktjoher@gmail.com", 15, 30);
       doc.text("GSTIN: 08ACEPI2786B1ZS", 15, 36);
       doc.text("Plant Office: Main Road Banswara-Dungarpur Highway, Bedwa, Partapur - 327024, Rajasthan, India", 15, 42);
 
-      // QC Status boundary badge stamps
+      // Certificate stamps
       doc.setDrawColor(39, 174, 96); doc.setLineWidth(0.5); doc.setFillColor(240, 249, 244); doc.roundedRect(15, 56, 48, 8, 4, 4, 'FD'); 
       doc.setFont("Helvetica", "bold"); doc.setFontSize(9); doc.setTextColor(39, 174, 96); doc.text("QC VERIFIED CERTIFICATE", 18, 61.5);
 
       // Selected product item header string
       doc.setFont("Helvetica", "bold"); doc.setFontSize(15); doc.setTextColor(107, 79, 79); doc.text(activeName, 15, 78);
 
-      // Secure picture compilation matrix injection
-      if (loadedBase64Image) {
-        try {
-          doc.addImage(loadedBase64Image, 'JPEG', 145, 106, 45, 45);
-          doc.setDrawColor(220, 220, 220); doc.setLineWidth(0.2); doc.rect(145, 106, 45, 45); 
-        } catch (err) { console.error("Image drawing stream skipped.", err); }
+      // Secure picture stream compilation vector capture block
+      try {
+        const imgEl = document.getElementById('stone-image');
+        if (imgEl && imgEl.src && !imgEl.src.endsWith('verify.html')) {
+          const canvas = document.createElement("canvas");
+          canvas.width = imgEl.naturalWidth || imgEl.width;
+          canvas.height = imgEl.naturalHeight || imgEl.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(imgEl, 0, 0);
+          const base64Data = canvas.toDataURL("image/jpeg", 0.95);
+          
+          doc.addImage(base64Data, 'JPEG', 145, 106, 45, 45);
+          doc.setDrawColor(220, 220, 220); doc.setLineWidth(0.2); doc.rect(145, 106, 45, 45);
+        }
+      } catch (err) {
+        console.error("Image asset mapping compilation error handled safely.", err);
       }
 
-      // 4-Line technical mechanical characteristics structural grid table rows loop
+      // Core 4 Mechanical parameter rows loop
       doc.setDrawColor(220, 220, 220); doc.setLineWidth(0.3);
       const tableStartY = 88; const rowHeight = 14;
       const labels = ["Compressive Strength", "Water Absorption", "Bulk Density", "Compliance Standard"];
@@ -430,18 +426,18 @@
         }
       }
 
-      // Verification loop QR print thread delay call mapping bounds
-      setTimeout(() => {
-        const qrCanvasElement = qrTargetDiv.querySelector('canvas');
-        if (qrCanvasElement) {
-          const qrImageDataUriString = qrCanvasElement.toDataURL("image/jpeg", 1.0);
-          doc.addImage(qrImageDataUriString, 'JPEG', 152, 56, 38, 38);
-          
-          doc.setFont("Helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(119, 119, 119);
-          doc.text("SCAN TO RE-VERIFY DATA", 153, 98);
-        }
-        doc.save('KT_Compliance_Certificate.pdf');
-      }, 120);
+      // Generate verification QR matrix graphic straight onto document space coordinates
+      const hiddenQrRender = document.getElementById("hidden-qr-render");
+      const qrCanvasElement = hiddenQrRender.querySelector('canvas');
+      if (qrCanvasElement) {
+        const qrImageDataUriString = qrCanvasElement.toDataURL("image/jpeg", 1.0);
+        doc.addImage(qrImageDataUriString, 'JPEG', 152, 56, 38, 38);
+        
+        doc.setFont("Helvetica", "normal"); doc.setFontSize(7.5); doc.setTextColor(119, 119, 119);
+        doc.text("SCAN TO RE-VERIFY DATA", 153, 98);
+      }
+      
+      doc.save('KT_Compliance_Certificate.pdf');
     }
   </script>
 </body>
